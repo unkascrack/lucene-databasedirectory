@@ -1,0 +1,1 @@
+sql.table.exists=SELECT count(*) FROM %s 

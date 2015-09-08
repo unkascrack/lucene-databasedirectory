@@ -17,7 +17,7 @@ class DatabaseIndexInput extends BufferedIndexInput {
     private int pos;
 
     DatabaseIndexInput(final DatabaseDirectory directory, final String name, final IOContext context)
-            throws DatabaseStoreException {
+            throws DatabaseDirectoryException {
         super(name, context);
         final byte[] content = handler.fileContent(directory, name);
         buffer = content != null && content.length > 0 ? ByteBuffer.wrap(content) : ByteBuffer.allocate(0);

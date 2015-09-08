@@ -28,13 +28,13 @@ class DataSourceUtils {
      *
      * @param dataSource
      * @return
-     * @throws DatabaseStoreException
+     * @throws DatabaseDirectoryException
      */
-    static Connection getConnection(final DataSource dataSource) throws DatabaseStoreException {
+    static Connection getConnection(final DataSource dataSource) throws DatabaseDirectoryException {
         try {
             return dataSource.getConnection();
         } catch (final SQLException e) {
-            throw new DatabaseStoreException("Failed to open jdbc connection", e);
+            throw new DatabaseDirectoryException("Failed to open jdbc connection", e);
         }
     }
 
@@ -47,9 +47,9 @@ class DataSourceUtils {
      * connection controls the connection (i.e. it is the most outer connection created).
      *
      * @param connection
-     * @throws DatabaseStoreException
+     * @throws DatabaseDirectoryException
      */
-    static void releaseConnection(final Connection connection) throws DatabaseStoreException {
+    static void releaseConnection(final Connection connection) throws DatabaseDirectoryException {
         if (connection == null) {
             return;
         }
@@ -57,7 +57,7 @@ class DataSourceUtils {
             try {
                 connection.close();
             } catch (final SQLException e) {
-                throw new DatabaseStoreException("Failed to release jdbc connection", e);
+                throw new DatabaseDirectoryException("Failed to release jdbc connection", e);
             }
         }
     }
@@ -68,16 +68,16 @@ class DataSourceUtils {
      * <code>TransactionAwareDataSourceProxy</code> returned.
      *
      * @param connection
-     * @throws DatabaseStoreException
+     * @throws DatabaseDirectoryException
      */
-    static void commitConnection(final Connection connection) throws DatabaseStoreException {
+    static void commitConnection(final Connection connection) throws DatabaseDirectoryException {
         try {
             if (connection != null && isControlConnection(connection)) {
                 connection.commit();
             }
         } catch (final SQLException e) {
             rollbackConnection(connection);
-            throw new DatabaseStoreException("Failed to commit jdbc connection", e);
+            throw new DatabaseDirectoryException("Failed to commit jdbc connection", e);
         }
     }
 

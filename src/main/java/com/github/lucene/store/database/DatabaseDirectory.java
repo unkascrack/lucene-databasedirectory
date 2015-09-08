@@ -34,10 +34,10 @@ public class DatabaseDirectory extends Directory {
      * @param dataSource
      * @param dialect
      * @param indexTableName
-     * @throws DatabaseStoreException
+     * @throws DatabaseDirectoryException
      */
     public DatabaseDirectory(final DataSource dataSource, final Dialect dialect, final String indexTableName)
-            throws DatabaseStoreException {
+            throws DatabaseDirectoryException {
         this(dataSource, dialect, indexTableName, DatabaseLockFactory.INSTANCE);
     }
 
@@ -46,10 +46,10 @@ public class DatabaseDirectory extends Directory {
      * @param dialect
      * @param indexTableName
      * @param lockFactory
-     * @throws DatabaseStoreException
+     * @throws DatabaseDirectoryException
      */
     public DatabaseDirectory(final DataSource dataSource, final Dialect dialect, final String indexTableName,
-            final LockFactory lockFactory) throws DatabaseStoreException {
+            final LockFactory lockFactory) throws DatabaseDirectoryException {
         this.dataSource = dataSource;
         this.dialect = dialect;
         this.indexTableName = indexTableName;

@@ -51,10 +51,10 @@ class JdbcTemplate {
      * @param sql
      * @param callback
      * @return
-     * @throws DatabaseStoreException
+     * @throws DatabaseDirectoryException
      */
     static Object executeSelect(final Connection connection, final String sql, final ExecuteSelectCallback callback)
-            throws DatabaseStoreException {
+            throws DatabaseDirectoryException {
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
@@ -64,7 +64,7 @@ class JdbcTemplate {
             return callback.execute(rs);
         } catch (final Exception e) {
             LOGGER.warn("DatabaseDirectory: failed to execute sql [{}]: e", sql, e.getMessage());
-            throw (DatabaseStoreException) (e instanceof DatabaseStoreException ? e : new DatabaseStoreException(
+            throw (DatabaseDirectoryException) (e instanceof DatabaseDirectoryException ? e : new DatabaseDirectoryException(
                     "Failed to execute sql [" + sql + "]", e));
         } finally {
             DataSourceUtils.closeResultSet(rs);
@@ -81,10 +81,10 @@ class JdbcTemplate {
      * @param connection
      * @param sql
      * @param callback
-     * @throws DatabaseStoreException
+     * @throws DatabaseDirectoryException
      */
     static void executeUpdate(final Connection connection, final String sql,
-            final PrepateStatementAwareCallback callback) throws DatabaseStoreException {
+            final PrepateStatementAwareCallback callback) throws DatabaseDirectoryException {
         PreparedStatement ps = null;
         try {
             ps = connection.prepareStatement(sql);
@@ -93,7 +93,7 @@ class JdbcTemplate {
             DataSourceUtils.commitConnection(connection);
         } catch (final Exception e) {
             LOGGER.warn("DatabaseDirectory: failed to execute sql [{}]: e", sql, e.getMessage());
-            throw (DatabaseStoreException) (e instanceof DatabaseStoreException ? e : new DatabaseStoreException(
+            throw (DatabaseDirectoryException) (e instanceof DatabaseDirectoryException ? e : new DatabaseDirectoryException(
                     "Failed to execute sql [" + sql + "]", e));
         } finally {
             DataSourceUtils.closeStatement(ps);

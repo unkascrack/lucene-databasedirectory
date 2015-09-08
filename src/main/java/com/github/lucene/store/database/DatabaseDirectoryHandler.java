@@ -18,9 +18,9 @@ class DatabaseDirectoryHandler {
     /**
      * @param directory
      * @return
-     * @throws DatabaseStoreException
+     * @throws DatabaseDirectoryException
      */
-    boolean existsIndexTable(final DatabaseDirectory directory) throws DatabaseStoreException {
+    boolean existsIndexTable(final DatabaseDirectory directory) throws DatabaseDirectoryException {
         final Connection connection = DataSourceUtils.getConnection(directory.getDataSource());
         final String sqlTableExists = directory.getDialect().sqlTableExists(directory.getIndexTableName());
         boolean exists = false;
@@ -38,16 +38,16 @@ class DatabaseDirectoryHandler {
                             return rs.next() ? Boolean.TRUE : Boolean.FALSE;
                         }
                     });
-        } catch (final DatabaseStoreException e) {
+        } catch (final DatabaseDirectoryException e) {
         }
         return exists;
     }
 
     /**
      * @param directory
-     * @throws DatabaseStoreException
+     * @throws DatabaseDirectoryException
      */
-    void createIndexTable(final DatabaseDirectory directory) throws DatabaseStoreException {
+    void createIndexTable(final DatabaseDirectory directory) throws DatabaseDirectoryException {
         final Connection connection = DataSourceUtils.getConnection(directory.getDataSource());
         final String sqlCreate = directory.getDialect().sqlTableCreate(directory.getIndexTableName());
         JdbcTemplate.executeUpdate(connection, sqlCreate, new JdbcTemplate.PrepateStatementAwareCallback() {
@@ -62,9 +62,9 @@ class DatabaseDirectoryHandler {
     /**
      * @param directory
      * @return
-     * @throws DatabaseStoreException
+     * @throws DatabaseDirectoryException
      */
-    public String[] listAllFiles(final DatabaseDirectory directory) throws DatabaseStoreException {
+    public String[] listAllFiles(final DatabaseDirectory directory) throws DatabaseDirectoryException {
         final Connection connection = DataSourceUtils.getConnection(directory.getDataSource());
         final String sqlListAll = directory.getDialect().sqlSelectAll(directory.getIndexTableName());
         return (String[]) JdbcTemplate.executeSelect(connection, sqlListAll, new JdbcTemplate.ExecuteSelectCallback() {
@@ -96,9 +96,9 @@ class DatabaseDirectoryHandler {
      * @param directory
      * @param name
      * @return
-     * @throws DatabaseStoreException
+     * @throws DatabaseDirectoryException
      */
-    public long fileLength(final DatabaseDirectory directory, final String name) throws DatabaseStoreException {
+    public long fileLength(final DatabaseDirectory directory, final String name) throws DatabaseDirectoryException {
         final Connection connection = DataSourceUtils.getConnection(directory.getDataSource());
         final String sqlSelectSize = directory.getDialect().sqlSelectSize(directory.getIndexTableName());
         return (long) JdbcTemplate.executeSelect(connection, sqlSelectSize, new JdbcTemplate.ExecuteSelectCallback() {
@@ -119,10 +119,10 @@ class DatabaseDirectoryHandler {
      * @param directory
      * @param source
      * @param dest
-     * @throws DatabaseStoreException
+     * @throws DatabaseDirectoryException
      */
     public void renameFile(final DatabaseDirectory directory, final String source, final String dest)
-            throws DatabaseStoreException {
+            throws DatabaseDirectoryException {
         final Connection connection = DataSourceUtils.getConnection(directory.getDataSource());
         final String sqlUpdate = directory.getDialect().sqlUpdate(directory.getIndexTableName());
         JdbcTemplate.executeUpdate(connection, sqlUpdate, new JdbcTemplate.PrepateStatementAwareCallback() {
@@ -141,9 +141,9 @@ class DatabaseDirectoryHandler {
      * @param directory
      * @param name
      * @return
-     * @throws DatabaseStoreException
+     * @throws DatabaseDirectoryException
      */
-    public byte[] fileContent(final DatabaseDirectory directory, final String name) throws DatabaseStoreException {
+    public byte[] fileContent(final DatabaseDirectory directory, final String name) throws DatabaseDirectoryException {
         final Connection connection = DataSourceUtils.getConnection(directory.getDataSource());
         final String sqlSelectContent = directory.getDialect().sqlSelectContent(directory.getIndexTableName());
         return (byte[]) JdbcTemplate.executeSelect(connection, sqlSelectContent,
@@ -166,10 +166,10 @@ class DatabaseDirectoryHandler {
      * @param name
      * @param content
      * @param contentLength
-     * @throws DatabaseStoreException
+     * @throws DatabaseDirectoryException
      */
     public void saveFile(final DatabaseDirectory directory, final String name, final byte[] content,
-            final int contentLength) throws DatabaseStoreException {
+            final int contentLength) throws DatabaseDirectoryException {
         final String sqlInsert = directory.getDialect().sqlInsert(directory.getIndexTableName());
         final Connection connection = DataSourceUtils.getConnection(directory.getDataSource());
         JdbcTemplate.executeUpdate(connection, sqlInsert, new JdbcTemplate.PrepateStatementAwareCallback() {
@@ -192,9 +192,9 @@ class DatabaseDirectoryHandler {
      * @param directory
      * @param name
      * @param commit
-     * @throws DatabaseStoreException
+     * @throws DatabaseDirectoryException
      */
-    public void deleteFile(final DatabaseDirectory directory, final String name) throws DatabaseStoreException {
+    public void deleteFile(final DatabaseDirectory directory, final String name) throws DatabaseDirectoryException {
         final Connection connection = DataSourceUtils.getConnection(directory.getDataSource());
         final String sqlDelete = directory.getDialect().sqlDeleteByName(directory.getIndexTableName());
         JdbcTemplate.executeUpdate(connection, sqlDelete, new JdbcTemplate.PrepateStatementAwareCallback() {
@@ -211,9 +211,9 @@ class DatabaseDirectoryHandler {
      * @param directory
      * @param name
      * @return
-     * @throws DatabaseStoreException
+     * @throws DatabaseDirectoryException
      */
-    public boolean existsFile(final DatabaseDirectory directory, final String name) throws DatabaseStoreException {
+    public boolean existsFile(final DatabaseDirectory directory, final String name) throws DatabaseDirectoryException {
         final Connection connection = DataSourceUtils.getConnection(directory.getDataSource());
         final String sqlSelectName = directory.getDialect().sqlSelectName(directory.getIndexTableName());
         return (boolean) JdbcTemplate.executeSelect(connection, sqlSelectName,

@@ -28,7 +28,7 @@ public class DatabaseLockFactory extends LockFactory {
         try {
             handler.saveFile(directory, lockName, null, 0);
             return new DatabaseLock(directory, lockName);
-        } catch (final DatabaseStoreException e) {
+        } catch (final DatabaseDirectoryException e) {
             throw new LockObtainFailedException("Lock instance already obtained: " + directory);
         }
     }

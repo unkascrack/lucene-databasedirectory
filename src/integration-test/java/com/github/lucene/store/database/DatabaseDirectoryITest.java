@@ -41,7 +41,7 @@ public class DatabaseDirectoryITest extends AbstractContextIntegrationTests {
     private Directory directory;
 
     @Before
-    public void initDirectory() throws DatabaseStoreException, IOException {
+    public void initDirectory() throws DatabaseDirectoryException, IOException {
         directory = new DatabaseDirectory(dataSource, dialect, indexTableName);
     }
 
@@ -132,8 +132,8 @@ public class DatabaseDirectoryITest extends AbstractContextIntegrationTests {
         Assert.assertEquals(0, directory.listAll().length);
     }
 
-    @Test(expected = DatabaseStoreException.class)
-    public void createOutput_whenFileFound_shouldThrowDatabaseStoreException() throws IOException {
+    @Test(expected = DatabaseDirectoryException.class)
+    public void createOutput_whenFileFound_shouldThrowDatabaseDirectoryException() throws IOException {
         addContentIndexOutput(directory, "test1", "TEST STRING", Context.FLUSH);
         addContentIndexOutput(directory, "test1", "TEST STRING", Context.FLUSH);
     }

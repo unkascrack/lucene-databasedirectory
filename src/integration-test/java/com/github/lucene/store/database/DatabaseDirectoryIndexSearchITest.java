@@ -29,7 +29,7 @@ public class DatabaseDirectoryIndexSearchITest extends AbstractContextIntegratio
     private final boolean useCompoundFile = false;
 
     @Before
-    public void initDirectory() throws DatabaseStoreException, IOException {
+    public void initDirectory() throws DatabaseDirectoryException, IOException {
         directory = new DatabaseDirectory(dataSource, dialect, indexTableName);
         // create empty index
         final IndexWriterConfig config = getIndexWriterConfig(analyzer, openMode, useCompoundFile);

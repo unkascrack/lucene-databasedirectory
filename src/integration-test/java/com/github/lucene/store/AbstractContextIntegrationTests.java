@@ -7,6 +7,8 @@ import java.util.Collection;
 
 import javax.sql.DataSource;
 
+import net.sf.log4jdbc.sql.jdbcapi.DataSourceSpy;
+
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.core.SimpleAnalyzer;
 import org.apache.lucene.document.Document;
@@ -25,12 +27,11 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 
+import com.github.lucene.store.database.TransactionAwareDataSourceProxy;
 import com.github.lucene.store.database.dialect.Dialect;
 import com.github.lucene.store.database.dialect.HSQLDialect;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-
-import net.sf.log4jdbc.sql.jdbcapi.DataSourceSpy;
 
 public class AbstractContextIntegrationTests {
 
@@ -63,17 +64,19 @@ public class AbstractContextIntegrationTests {
 
     @Before
     public void initDataSource() throws Exception {
+        final String driverClassName = "org.hsqldb.jdbc.JDBCDataSource";
         final String url = "jdbc:hsqldb:mem:test";
         final String username = "sa";
         final String password = "";
 
         final HikariConfig config = new HikariConfig();
+        config.setDriverClassName(driverClassName);
         config.setJdbcUrl(url);
         config.setUsername(username);
         config.setPassword(password);
         config.setAutoCommit(false);
         final HikariDataSource ds = new HikariDataSource(config);
-        dataSource = new DataSourceSpy(ds);
+        dataSource = new TransactionAwareDataSourceProxy(new DataSourceSpy(ds));
     }
 
     @Before

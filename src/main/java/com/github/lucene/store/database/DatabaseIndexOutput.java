@@ -6,7 +6,6 @@ import java.util.zip.CRC32;
 import java.util.zip.Checksum;
 
 import org.apache.lucene.store.IOContext;
-import org.apache.lucene.store.IOContext.Context;
 import org.apache.lucene.store.IndexOutput;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,7 +34,7 @@ class DatabaseIndexOutput extends IndexOutput {
     public void close() throws IOException {
         LOGGER.trace("{}.close()", this);
         final byte[] buffer = baos.toByteArray();
-        handler.saveFile(directory, name, buffer, buffer.length, Context.FLUSH.equals(context.context));
+        handler.saveFile(directory, name, buffer, buffer.length);
     }
 
     @Override

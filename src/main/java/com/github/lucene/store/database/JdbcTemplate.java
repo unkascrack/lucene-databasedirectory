@@ -7,13 +7,19 @@ import java.sql.ResultSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Helper class that isused to encapsulate resource and transaction handling related to <code>DataSource</code>,
+ * <code>Statement</code>, and <code>ResultSet</code>. {@link DataSourceUtils} is used to open/cose relevant resources.
+ *
+ * @author kimchy
+ * @see DataSourceUtils
+ */
 class JdbcTemplate {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(JdbcTemplate.class);
 
     /**
-     * A callback interface used to initialize a Jdbc
-     * <code>PreparedStatement</code>.
+     * A callback interface used to initialize a Jdbc <code>PreparedStatement</code>.
      */
     static interface PrepateStatementAwareCallback {
 
@@ -29,8 +35,7 @@ class JdbcTemplate {
     static interface ExecuteSelectCallback extends PrepateStatementAwareCallback {
 
         /**
-         * Extract data from the <code>ResultSet</code> and an optional return
-         * value.
+         * Extract data from the <code>ResultSet</code> and an optional return value.
          */
         Object execute(ResultSet rs) throws Exception;
     }
@@ -39,9 +44,8 @@ class JdbcTemplate {
     }
 
     /**
-     * A template method to execute a simple sql select statement. The jdbc
-     * <code>Connection</code>, <code>PreparedStatement</code>, and
-     * <code>ResultSet</code> are managed by the template.
+     * A template method to execute a simple sql select statement. The jdbc <code>Connection</code>,
+     * <code>PreparedStatement</code>, and <code>ResultSet</code> are managed by the template.
      *
      * @param connection
      * @param sql
@@ -60,8 +64,8 @@ class JdbcTemplate {
             return callback.execute(rs);
         } catch (final Exception e) {
             LOGGER.warn("DatabaseDirectory: failed to execute sql [{}]: e", sql, e.getMessage());
-            throw (DatabaseStoreException) (e instanceof DatabaseStoreException ? e
-                    : new DatabaseStoreException("Failed to execute sql [" + sql + "]", e));
+            throw (DatabaseStoreException) (e instanceof DatabaseStoreException ? e : new DatabaseStoreException(
+                    "Failed to execute sql [" + sql + "]", e));
         } finally {
             DataSourceUtils.closeResultSet(rs);
             DataSourceUtils.closeStatement(ps);
@@ -70,9 +74,8 @@ class JdbcTemplate {
     }
 
     /**
-     * A template method to execute a simple sql update. The jdbc
-     * <code>Connection</code>, and <code>PreparedStatement</code> are managed
-     * by the template. A <code>PreparedStatement</code> can be used to set
+     * A template method to execute a simple sql update. The jdbc <code>Connection</code>, and
+     * <code>PreparedStatement</code> are managed by the template. A <code>PreparedStatement</code> can be used to set
      * values to the given sql.
      *
      * @param connection
@@ -80,38 +83,18 @@ class JdbcTemplate {
      * @param callback
      * @throws DatabaseStoreException
      */
-    // static void executeUpdate(final Connection connection, final String sql,
-    // final PrepateStatementAwareCallback callback) throws
-    // DatabaseStoreException {
-    // executeUpdate(connection, sql, false, callback);
-    // }
-
-    /**
-     * A template method to execute a simple sql update. The jdbc
-     * <code>Connection</code>, and <code>PreparedStatement</code> are managed
-     * by the template. A <code>PreparedStatement</code> can be used to set
-     * values to the given sql.
-     *
-     * @param connection
-     * @param sql
-     * @param commit
-     * @param callback
-     * @throws DatabaseStoreException
-     */
-    static void executeUpdate(final Connection connection, final String sql, final boolean commit,
+    static void executeUpdate(final Connection connection, final String sql,
             final PrepateStatementAwareCallback callback) throws DatabaseStoreException {
         PreparedStatement ps = null;
         try {
             ps = connection.prepareStatement(sql);
             callback.fillPrepareStatement(ps);
             ps.executeUpdate();
-            if (commit) {
-                connection.commit();
-            }
+            DataSourceUtils.commitConnection(connection);
         } catch (final Exception e) {
             LOGGER.warn("DatabaseDirectory: failed to execute sql [{}]: e", sql, e.getMessage());
-            throw (DatabaseStoreException) (e instanceof DatabaseStoreException ? e
-                    : new DatabaseStoreException("Failed to execute sql [" + sql + "]", e));
+            throw (DatabaseStoreException) (e instanceof DatabaseStoreException ? e : new DatabaseStoreException(
+                    "Failed to execute sql [" + sql + "]", e));
         } finally {
             DataSourceUtils.closeStatement(ps);
             DataSourceUtils.releaseConnection(connection);

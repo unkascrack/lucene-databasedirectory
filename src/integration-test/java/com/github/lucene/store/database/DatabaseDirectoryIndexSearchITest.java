@@ -31,8 +31,6 @@ public class DatabaseDirectoryIndexSearchITest extends AbstractContextIntegratio
     @Before
     public void initDirectory() throws DatabaseStoreException, IOException {
         directory = new DatabaseDirectory(dataSource, dialect, indexTableName);
-        // directory =
-        // FSDirectory.open(FileSystems.getDefault().getPath("target/index"));
         // create empty index
         final IndexWriterConfig config = getIndexWriterConfig(analyzer, openMode, useCompoundFile);
         final IndexWriter writer = new IndexWriter(directory, config);

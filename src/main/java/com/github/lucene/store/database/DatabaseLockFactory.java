@@ -26,7 +26,7 @@ public class DatabaseLockFactory extends LockFactory {
 
         final DatabaseDirectory directory = (DatabaseDirectory) dir;
         try {
-            handler.saveFile(directory, lockName, null, 0, true);
+            handler.saveFile(directory, lockName, null, 0);
             return new DatabaseLock(directory, lockName);
         } catch (final DatabaseStoreException e) {
             throw new LockObtainFailedException("Lock instance already obtained: " + directory);
@@ -64,7 +64,7 @@ public class DatabaseLockFactory extends LockFactory {
         public void close() throws IOException {
             LOGGER.debug("{}.close()", this);
             if (!closed) {
-                handler.deleteFile(directory, name, true);
+                handler.deleteFile(directory, name);
                 closed = true;
             }
         }

@@ -50,7 +50,7 @@ class DatabaseDirectoryHandler {
     void createIndexTable(final DatabaseDirectory directory) throws DatabaseStoreException {
         final Connection connection = DataSourceUtils.getConnection(directory.getDataSource());
         final String sqlCreate = directory.getDialect().sqlTableCreate(directory.getIndexTableName());
-        JdbcTemplate.executeUpdate(connection, sqlCreate, true, new JdbcTemplate.PrepateStatementAwareCallback() {
+        JdbcTemplate.executeUpdate(connection, sqlCreate, new JdbcTemplate.PrepateStatementAwareCallback() {
 
             @Override
             public void fillPrepareStatement(final PreparedStatement ps) throws Exception {
@@ -125,7 +125,7 @@ class DatabaseDirectoryHandler {
             throws DatabaseStoreException {
         final Connection connection = DataSourceUtils.getConnection(directory.getDataSource());
         final String sqlUpdate = directory.getDialect().sqlUpdate(directory.getIndexTableName());
-        JdbcTemplate.executeUpdate(connection, sqlUpdate, true, new JdbcTemplate.PrepateStatementAwareCallback() {
+        JdbcTemplate.executeUpdate(connection, sqlUpdate, new JdbcTemplate.PrepateStatementAwareCallback() {
 
             @Override
             public void fillPrepareStatement(final PreparedStatement ps) throws Exception {
@@ -166,14 +166,13 @@ class DatabaseDirectoryHandler {
      * @param name
      * @param content
      * @param contentLength
-     * @param commit
      * @throws DatabaseStoreException
      */
     public void saveFile(final DatabaseDirectory directory, final String name, final byte[] content,
-            final int contentLength, final boolean commit) throws DatabaseStoreException {
+            final int contentLength) throws DatabaseStoreException {
         final String sqlInsert = directory.getDialect().sqlInsert(directory.getIndexTableName());
         final Connection connection = DataSourceUtils.getConnection(directory.getDataSource());
-        JdbcTemplate.executeUpdate(connection, sqlInsert, commit, new JdbcTemplate.PrepateStatementAwareCallback() {
+        JdbcTemplate.executeUpdate(connection, sqlInsert, new JdbcTemplate.PrepateStatementAwareCallback() {
 
             @Override
             public void fillPrepareStatement(final PreparedStatement ps) throws Exception {
@@ -195,11 +194,10 @@ class DatabaseDirectoryHandler {
      * @param commit
      * @throws DatabaseStoreException
      */
-    public void deleteFile(final DatabaseDirectory directory, final String name, final boolean commit)
-            throws DatabaseStoreException {
+    public void deleteFile(final DatabaseDirectory directory, final String name) throws DatabaseStoreException {
         final Connection connection = DataSourceUtils.getConnection(directory.getDataSource());
         final String sqlDelete = directory.getDialect().sqlDeleteByName(directory.getIndexTableName());
-        JdbcTemplate.executeUpdate(connection, sqlDelete, commit, new JdbcTemplate.PrepateStatementAwareCallback() {
+        JdbcTemplate.executeUpdate(connection, sqlDelete, new JdbcTemplate.PrepateStatementAwareCallback() {
 
             @Override
             public void fillPrepareStatement(final PreparedStatement ps) throws Exception {

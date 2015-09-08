@@ -146,12 +146,17 @@ public class TransactionAwareDataSourceProxy implements DataSource {
 
     /**
      * A simple helper that return the Jdbc <code>Connection</code> wrapped in our proxy.
+     *
+     * @param target
+     * @param dataSource
+     * @param controlConnection
+     * @return
      */
     protected Connection getTransactionAwareConnectionProxy(final Connection target, final DataSource dataSource,
-            final boolean controllsConnection) {
+            final boolean controlConnection) {
         return (Connection) Proxy.newProxyInstance(ConnectionProxy.class.getClassLoader(),
                 new Class[] { ConnectionProxy.class }, new TransactionAwareInvocationHandler(target, dataSource,
-                        controllsConnection));
+                        controlConnection));
     }
 
     @SuppressWarnings("unchecked")

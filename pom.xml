@@ -50,6 +50,8 @@
 		<mockito.version>1.10.8</mockito.version>
 		<log4j.version>2.3</log4j.version>
 		<hsqldb.version>2.3.3</hsqldb.version>
+		<hikari.version>2.4.1</hikari.version>
+		<commons-dbcp.version>2.1.1</commons-dbcp.version>
 	</properties>
 
 	<dependencies>
@@ -116,7 +118,13 @@
 		<dependency>
 			<groupId>com.zaxxer</groupId>
 			<artifactId>HikariCP</artifactId>
-			<version>2.4.1</version>
+			<version>${hikari.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-dbcp2</artifactId>
+			<version>${commons-dbcp.version}</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

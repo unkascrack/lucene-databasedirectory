@@ -1,4 +1,4 @@
-package com.github.lucene.store.database;
+package com.github.lucene.store.database.datasource;
 
 import java.sql.Connection;
 

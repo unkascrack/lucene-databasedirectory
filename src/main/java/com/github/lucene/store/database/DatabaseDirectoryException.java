@@ -9,7 +9,7 @@ public class DatabaseDirectoryException extends IOException {
     /**
      * @param cause
      */
-    DatabaseDirectoryException(final Throwable cause) {
+    public DatabaseDirectoryException(final Throwable cause) {
         super(cause);
     }
 
@@ -17,7 +17,7 @@ public class DatabaseDirectoryException extends IOException {
      * @param message
      * @param cause
      */
-    DatabaseDirectoryException(final String message, final Throwable cause) {
+    public DatabaseDirectoryException(final String message, final Throwable cause) {
         super(message, cause);
     }
 

@@ -1,4 +1,4 @@
-package com.github.lucene.store.database;
+package com.github.lucene.store.database.datasource;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -7,7 +7,9 @@ import java.sql.Statement;
 
 import javax.sql.DataSource;
 
-class DataSourceUtils {
+import com.github.lucene.store.database.DatabaseDirectoryException;
+
+public class DataSourceUtils {
 
     private DataSourceUtils() {
     }
@@ -19,7 +21,7 @@ class DataSourceUtils {
      * @param connection
      * @return
      */
-    static boolean isControlConnection(final Connection connection) {
+    private static boolean isControlConnection(final Connection connection) {
         return connection instanceof ConnectionProxy && ((ConnectionProxy) connection).isControlConnection();
     }
 
@@ -30,7 +32,7 @@ class DataSourceUtils {
      * @return
      * @throws DatabaseDirectoryException
      */
-    static Connection getConnection(final DataSource dataSource) throws DatabaseDirectoryException {
+    public static Connection getConnection(final DataSource dataSource) throws DatabaseDirectoryException {
         try {
             return dataSource.getConnection();
         } catch (final SQLException e) {
@@ -49,7 +51,7 @@ class DataSourceUtils {
      * @param connection
      * @throws DatabaseDirectoryException
      */
-    static void releaseConnection(final Connection connection) throws DatabaseDirectoryException {
+    public static void releaseConnection(final Connection connection) throws DatabaseDirectoryException {
         if (connection == null) {
             return;
         }
@@ -70,7 +72,7 @@ class DataSourceUtils {
      * @param connection
      * @throws DatabaseDirectoryException
      */
-    static void commitConnection(final Connection connection) throws DatabaseDirectoryException {
+    public static void commitConnection(final Connection connection) throws DatabaseDirectoryException {
         try {
             if (connection != null && isControlConnection(connection)) {
                 connection.commit();
@@ -88,7 +90,7 @@ class DataSourceUtils {
      *
      * @param connection
      */
-    static void rollbackConnection(final Connection connection) {
+    public static void rollbackConnection(final Connection connection) {
         try {
             if (connection != null && isControlConnection(connection)) {
                 connection.rollback();
@@ -105,7 +107,7 @@ class DataSourceUtils {
      * @param statement
      *            the JDBC Statement to close
      */
-    static void closeStatement(final Statement statement) {
+    public static void closeStatement(final Statement statement) {
         if (statement != null) {
             try {
                 statement.close();
@@ -121,7 +123,7 @@ class DataSourceUtils {
      * @param resultSet
      *            the JDBC ResultSet to close
      */
-    static void closeResultSet(final ResultSet resultSet) {
+    public static void closeResultSet(final ResultSet resultSet) {
         if (resultSet != null) {
             try {
                 resultSet.close();

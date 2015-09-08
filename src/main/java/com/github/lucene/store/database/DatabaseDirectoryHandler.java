@@ -8,6 +8,8 @@ import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import com.github.lucene.store.database.datasource.DataSourceUtils;
+
 class DatabaseDirectoryHandler {
 
     static final DatabaseDirectoryHandler INSTANCE = new DatabaseDirectoryHandler();

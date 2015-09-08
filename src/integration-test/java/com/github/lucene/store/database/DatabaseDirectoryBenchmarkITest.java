@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.util.Collection;
 
+import org.apache.lucene.index.CheckIndex;
+import org.apache.lucene.index.CheckIndex.Status;
 import org.apache.lucene.index.IndexWriterConfig.OpenMode;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
@@ -45,6 +47,15 @@ public class DatabaseDirectoryBenchmarkITest extends AbstractContextIntegrationT
         final long start = System.currentTimeMillis();
         addDocuments(dir, openMode, useCompoundFile, docs);
         addDocuments(dir, openMode, useCompoundFile, docs);
+
+        if (dir instanceof DatabaseDirectory) {
+            final CheckIndex c = new CheckIndex(dir);
+            c.setInfoStream(System.err);
+            final Status status = c.checkIndex();
+            c.close();
+            System.out.println(status);
+        }
+
         optimize(dir, openMode, useCompoundFile);
         final long stop = System.currentTimeMillis();
         return stop - start;

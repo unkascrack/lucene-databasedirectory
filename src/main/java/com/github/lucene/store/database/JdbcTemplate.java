@@ -7,6 +7,8 @@ import java.sql.ResultSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.github.lucene.store.database.datasource.DataSourceUtils;
+
 /**
  * Helper class that isused to encapsulate resource and transaction handling related to <code>DataSource</code>,
  * <code>Statement</code>, and <code>ResultSet</code>. {@link DataSourceUtils} is used to open/cose relevant resources.

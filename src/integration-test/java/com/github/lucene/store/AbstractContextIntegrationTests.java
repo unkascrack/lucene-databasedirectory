@@ -28,7 +28,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 
-import com.github.lucene.store.database.TransactionAwareDataSourceProxy;
+import com.github.lucene.store.database.datasource.TransactionAwareDataSourceProxy;
 import com.github.lucene.store.database.dialect.Dialect;
 import com.github.lucene.store.database.dialect.HSQLDialect;
 

@@ -155,7 +155,7 @@ public class DatabaseDirectoryITest extends AbstractContextIntegrationTests {
     public void obtainLock_whenLockFileNotFound_shouldReturnLock() throws IOException {
         final Lock lock = directory.obtainLock(IndexWriter.WRITE_LOCK_NAME);
         Assert.assertNotNull(lock);
-        Assert.assertTrue(lock instanceof DatabaseLockFactory.DatabaseLock);
+        Assert.assertTrue(lock instanceof DatabasePhantomReadLockFactory.DatabasePhantomReadLock);
         lock.close();
     }
 

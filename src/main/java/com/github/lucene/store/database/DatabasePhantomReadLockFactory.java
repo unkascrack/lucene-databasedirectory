@@ -10,14 +10,14 @@ import org.apache.lucene.store.LockObtainFailedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class DatabaseLockFactory extends LockFactory {
+public class DatabasePhantomReadLockFactory extends LockFactory {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(DatabaseLockFactory.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DatabasePhantomReadLockFactory.class);
     private static final DatabaseDirectoryHandler handler = DatabaseDirectoryHandler.INSTANCE;
 
-    public static final LockFactory INSTANCE = new DatabaseLockFactory();
+    public static final LockFactory INSTANCE = new DatabasePhantomReadLockFactory();
 
-    private DatabaseLockFactory() {
+    private DatabasePhantomReadLockFactory() {
     }
 
     @Override
@@ -27,7 +27,7 @@ public class DatabaseLockFactory extends LockFactory {
         final DatabaseDirectory directory = (DatabaseDirectory) dir;
         try {
             handler.saveFile(directory, lockName, null, 0);
-            return new DatabaseLock(directory, lockName);
+            return new DatabasePhantomReadLock(directory, lockName);
         } catch (final DatabaseDirectoryException e) {
             throw new LockObtainFailedException("Lock instance already obtained: " + directory);
         }
@@ -38,13 +38,13 @@ public class DatabaseLockFactory extends LockFactory {
         return this.getClass().getSimpleName();
     }
 
-    static final class DatabaseLock extends Lock {
+    static final class DatabasePhantomReadLock extends Lock {
 
         private final DatabaseDirectory directory;
         private final String name;
         private volatile boolean closed;
 
-        public DatabaseLock(final DatabaseDirectory directory, final String name) {
+        public DatabasePhantomReadLock(final DatabaseDirectory directory, final String name) {
             this.directory = directory;
             this.name = name;
         }

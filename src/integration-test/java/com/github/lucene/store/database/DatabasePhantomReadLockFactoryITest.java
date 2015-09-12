@@ -15,9 +15,9 @@ import org.junit.Test;
 
 import com.github.lucene.store.AbstractContextIntegrationTests;
 
-public class DatabaseLockFactoryITest extends AbstractContextIntegrationTests {
+public class DatabasePhantomReadLockFactoryITest extends AbstractContextIntegrationTests {
 
-    private final LockFactory lockFactory = DatabaseLockFactory.INSTANCE;
+    private final LockFactory lockFactory = DatabasePhantomReadLockFactory.INSTANCE;
 
     private Directory directory;
 

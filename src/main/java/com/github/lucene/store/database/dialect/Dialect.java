@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+import org.apache.lucene.store.LockFactory;
+
 public abstract class Dialect {
 
     private static final String DEFAULT_CONFIG = "dialect.sql";
@@ -31,19 +33,20 @@ public abstract class Dialect {
     }
 
     /**
-     * Does the dialect support a special query to check if a table exists.
-     * Defaults to <code>false</code>.
+     * Does the dialect support a special query to check if a table exists. Defaults to <code>false</code>.
      *
      * @return
      */
-    public boolean supportsTableExists() {
-        return false;
-    }
+    public abstract boolean supportsTableExists();
 
     /**
-     * If the dialect support a special query to check if a table exists, the
-     * actual sql that is used to perform it. Defaults to throw an Unsupported
-     * excetion (see {@link #supportsTableExists()}.
+     * @return
+     */
+    public abstract LockFactory getLockFactory();
+
+    /**
+     * If the dialect support a special query to check if a table exists, the actual sql that is used to perform it.
+     * Defaults to throw an Unsupported excetion (see {@link #supportsTableExists()}.
      *
      * @param tableName
      * @param schemaName

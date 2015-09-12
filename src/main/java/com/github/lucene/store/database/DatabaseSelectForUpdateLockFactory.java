@@ -5,13 +5,12 @@ import java.io.IOException;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.Lock;
 import org.apache.lucene.store.LockFactory;
-import org.apache.lucene.store.LockObtainFailedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class DatabaseSelectForUpdateLockFactory extends LockFactory {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(DatabasePhantomReadLockFactory.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DatabaseSelectForUpdateLockFactory.class);
     private static final DatabaseDirectoryHandler handler = DatabaseDirectoryHandler.INSTANCE;
 
     public static final LockFactory INSTANCE = new DatabaseSelectForUpdateLockFactory();
@@ -22,15 +21,16 @@ public class DatabaseSelectForUpdateLockFactory extends LockFactory {
     @Override
     public Lock obtainLock(final Directory dir, final String lockName) throws IOException {
         LOGGER.info("{}.obtainLock({}, {})", this, dir, lockName);
+        // TODO Auto-generated method stub
+        return null;
 
-        final DatabaseDirectory directory = (DatabaseDirectory) dir;
-        try {
-            // TODO Auto-generated method stub
-            // handler.saveFile(directory, lockName, null, 0);
-            return new DatabaseSelectForUpdateLock(directory, lockName);
-        } catch (final DatabaseDirectoryException e) {
-            throw new LockObtainFailedException("Lock instance already obtained: " + directory);
-        }
+        // final DatabaseDirectory directory = (DatabaseDirectory) dir;
+        // try {
+        // handler.saveFile(directory, lockName, null, 0);
+        // return new DatabaseSelectForUpdateLock(directory, lockName);
+        // } catch (final DatabaseDirectoryException e) {
+        // throw new LockObtainFailedException("Lock instance already obtained: " + directory);
+        // }
     }
 
     @Override

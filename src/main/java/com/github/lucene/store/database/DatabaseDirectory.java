@@ -38,22 +38,10 @@ public class DatabaseDirectory extends Directory {
      */
     public DatabaseDirectory(final DataSource dataSource, final Dialect dialect, final String indexTableName)
             throws DatabaseDirectoryException {
-        this(dataSource, dialect, indexTableName, DatabaseLockFactory.INSTANCE);
-    }
-
-    /**
-     * @param dataSource
-     * @param dialect
-     * @param indexTableName
-     * @param lockFactory
-     * @throws DatabaseDirectoryException
-     */
-    public DatabaseDirectory(final DataSource dataSource, final Dialect dialect, final String indexTableName,
-            final LockFactory lockFactory) throws DatabaseDirectoryException {
         this.dataSource = dataSource;
         this.dialect = dialect;
         this.indexTableName = indexTableName;
-        this.lockFactory = lockFactory;
+        lockFactory = dialect.getLockFactory();
 
         // create directory, if it doesn't exist
         if (dialect.supportsTableExists() && !handler.existsIndexTable(this)) {

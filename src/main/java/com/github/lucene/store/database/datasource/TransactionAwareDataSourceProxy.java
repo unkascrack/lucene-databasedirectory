@@ -202,7 +202,11 @@ public class TransactionAwareDataSourceProxy implements DataSource {
         public Object invoke(final Object proxy, final Method method, final Object[] args) throws Throwable {
             // Invocation on ConnectionProxy interface coming in...
 
-            if (method.getName().equals("isControlConnection")) {
+            if (method.getName().equals("getTargetConnection")) {
+                // Handle getTargetConnection method: return underlying
+                // Connection.
+                return target;
+            } else if (method.getName().equals("isControlConnection")) {
                 return controlConnection ? Boolean.TRUE : Boolean.FALSE;
             } else if (method.getName().equals("equals")) {
                 // Only consider equal when proxies are identical.

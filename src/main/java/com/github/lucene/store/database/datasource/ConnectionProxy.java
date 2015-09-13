@@ -12,6 +12,13 @@ import java.sql.Connection;
 public interface ConnectionProxy extends Connection {
 
     /**
+     * Return the target connection of this proxy.
+     * <p/>
+     * This will typically either be the native JDBC Connection or a wrapper from a connection pool.
+     */
+    Connection getTargetConnection();
+
+    /**
      * If the given Jdbc Connection actually controls the connection.
      *
      * @see TransactionAwareDataSourceProxy

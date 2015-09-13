@@ -63,12 +63,13 @@ public class AbstractContextIntegrationTests {
 
     @Before
     public void initDataSource() throws Exception {
+        final String driverClassName = "org.hsqldb.jdbc.JDBCDriver";
         final String url = "jdbc:hsqldb:mem:test";
         final String username = "sa";
         final String password = "";
 
         // final HikariConfig config = new HikariConfig();
-        // config.setDriverClassName("org.hsqldb.jdbc.JDBCDataSource");
+        // config.setDriverClassName(driverClassName);
         // config.setJdbcUrl(url);
         // config.setUsername(username);
         // config.setPassword(password);
@@ -83,7 +84,7 @@ public class AbstractContextIntegrationTests {
         // final DataSource ds = new PoolingDataSource<>(connectionPool);
 
         final BasicDataSource ds = new BasicDataSource();
-        ds.setDriverClassName("org.hsqldb.jdbcDriver");
+        ds.setDriverClassName(driverClassName);
         ds.setUrl(url);
         ds.setUsername(username);
         ds.setPassword(password);

@@ -30,7 +30,7 @@ public class DatabaseDirectoryBenchmarkITest extends AbstractSpringContextIntegr
     public void setUp() throws Exception {
         ramDirectory = new RAMDirectory();
         fsDirectory = FSDirectory.open(FileSystems.getDefault().getPath("target/index"));
-        databaseDirectory = new DatabaseDirectory(dataSource, dialect, indexTableName);
+        databaseDirectory = directory;
     }
 
     @Test

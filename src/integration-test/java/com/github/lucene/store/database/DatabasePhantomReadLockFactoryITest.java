@@ -4,13 +4,10 @@ import java.io.IOException;
 
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.store.AlreadyClosedException;
-import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.Lock;
 import org.apache.lucene.store.LockFactory;
 import org.apache.lucene.store.LockObtainFailedException;
-import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 import com.github.lucene.store.AbstractSpringContextIntegrationTests;
@@ -18,18 +15,6 @@ import com.github.lucene.store.AbstractSpringContextIntegrationTests;
 public class DatabasePhantomReadLockFactoryITest extends AbstractSpringContextIntegrationTests {
 
     private final LockFactory lockFactory = DatabasePhantomReadLockFactory.INSTANCE;
-
-    private Directory directory;
-
-    @Before
-    public void initDirectory() throws DatabaseDirectoryException, IOException {
-        directory = new DatabaseDirectory(dataSource, dialect, indexTableName);
-    }
-
-    @After
-    public void closeDirectory() throws IOException {
-        directory.close();
-    }
 
     @Test
     public void obtainLock_shouldReturnLock() throws IOException {

@@ -31,20 +31,13 @@ import org.apache.lucene.store.Lock;
 import org.apache.lucene.store.LockObtainFailedException;
 import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 import com.github.lucene.store.AbstractSpringContextIntegrationTests;
 
 public class DatabaseDirectoryITest extends AbstractSpringContextIntegrationTests {
 
-    private Directory directory;
-
-    @Before
-    public void initDirectory() throws DatabaseDirectoryException, IOException {
-        directory = new DatabaseDirectory(dataSource, dialect, indexTableName);
-    }
-
+    @Override
     @After
     public void closeDirectory() throws IOException {
         final String[] files = directory.listAll();

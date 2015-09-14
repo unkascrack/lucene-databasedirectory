@@ -22,18 +22,24 @@ public abstract class Dialect {
 
     protected final Properties properties;
 
-    public Dialect(final String dialectConfig) throws IOException {
-        properties = new Properties();
-        properties.load(getClass().getResourceAsStream(DEFAULT_CONFIG));
-        InputStream stream = getClass().getResourceAsStream(dialectConfig);
-        if (stream == null) {
-            stream = getClass().getClassLoader().getResourceAsStream(dialectConfig);
+    public Dialect(final String dialectConfig) {
+        try {
+            properties = new Properties();
+            properties.load(getClass().getResourceAsStream(DEFAULT_CONFIG));
+            InputStream stream = getClass().getResourceAsStream(dialectConfig);
+            if (stream == null) {
+                stream = getClass().getClassLoader().getResourceAsStream(dialectConfig);
+            }
+            properties.load(stream);
+        } catch (final IOException e) {
+            throw new IllegalArgumentException(
+                    "Could not load dialect config [" + dialectConfig + "]: " + e.getMessage());
         }
-        properties.load(stream);
     }
 
     /**
-     * Does the dialect support a special query to check if a table exists. Defaults to <code>false</code>.
+     * Does the dialect support a special query to check if a table exists.
+     * Defaults to <code>false</code>.
      *
      * @return
      */
@@ -45,8 +51,9 @@ public abstract class Dialect {
     public abstract LockFactory getLockFactory();
 
     /**
-     * If the dialect support a special query to check if a table exists, the actual sql that is used to perform it.
-     * Defaults to throw an Unsupported excetion (see {@link #supportsTableExists()}.
+     * If the dialect support a special query to check if a table exists, the
+     * actual sql that is used to perform it. Defaults to throw an Unsupported
+     * excetion (see {@link #supportsTableExists()}.
      *
      * @param tableName
      * @param schemaName

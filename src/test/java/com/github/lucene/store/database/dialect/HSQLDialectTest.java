@@ -1,23 +1,16 @@
 package com.github.lucene.store.database.dialect;
 
-import java.io.IOException;
-
 import org.apache.lucene.store.LockFactory;
 import org.junit.Assert;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.github.lucene.store.database.DatabasePhantomReadLockFactory;
 
 public class HSQLDialectTest {
 
-    private static Dialect dialect;
     private static final String TABLENAME = "tableName";
 
-    @BeforeClass
-    public static void setUp() throws IOException {
-        dialect = new HSQLDialect();
-    }
+    private final Dialect dialect = new HSQLDialect();
 
     @Test
     public void supportsTableExists_shouldReturnTrue() {

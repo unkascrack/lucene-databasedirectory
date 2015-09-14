@@ -13,9 +13,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.github.lucene.store.AbstractContextIntegrationTests;
+import com.github.lucene.store.AbstractSpringContextIntegrationTests;
 
-public class DatabasePhantomReadLockFactoryITest extends AbstractContextIntegrationTests {
+public class DatabasePhantomReadLockFactoryITest extends AbstractSpringContextIntegrationTests {
 
     private final LockFactory lockFactory = DatabasePhantomReadLockFactory.INSTANCE;
 

@@ -13,15 +13,16 @@ import org.apache.lucene.store.RAMDirectory;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.github.lucene.store.AbstractContextIntegrationTests;
+import com.github.lucene.store.AbstractSpringContextIntegrationTests;
+import com.github.lucene.store.TestUtils;
 
-public class DatabaseDirectoryBenchmarkITest extends AbstractContextIntegrationTests {
+public class DatabaseDirectoryBenchmarkITest extends AbstractSpringContextIntegrationTests {
 
     private Directory fsDirectory;
     private Directory ramDirectory;
     private Directory databaseDirectory;
 
-    private final Collection<String> docs = loadDocuments(3000, 5);
+    private final Collection<String> docs = TestUtils.loadDocuments(3000, 5);
     private final OpenMode openMode = OpenMode.CREATE_OR_APPEND;
     private final boolean useCompoundFile = false;
 
@@ -45,8 +46,8 @@ public class DatabaseDirectoryBenchmarkITest extends AbstractContextIntegrationT
 
     private long timeIndexWriter(final Directory dir) throws IOException {
         final long start = System.currentTimeMillis();
-        addDocuments(dir, openMode, useCompoundFile, docs);
-        addDocuments(dir, openMode, useCompoundFile, docs);
+        TestUtils.addDocuments(dir, analyzer, openMode, useCompoundFile, docs);
+        TestUtils.addDocuments(dir, analyzer, openMode, useCompoundFile, docs);
 
         if (dir instanceof DatabaseDirectory) {
             final CheckIndex c = new CheckIndex(dir);
@@ -56,7 +57,7 @@ public class DatabaseDirectoryBenchmarkITest extends AbstractContextIntegrationT
             System.out.println(status);
         }
 
-        optimize(dir, openMode, useCompoundFile);
+        TestUtils.optimize(dir, analyzer, openMode, useCompoundFile);
         final long stop = System.currentTimeMillis();
         return stop - start;
     }

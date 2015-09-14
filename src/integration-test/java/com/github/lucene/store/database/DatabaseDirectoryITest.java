@@ -34,9 +34,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.github.lucene.store.AbstractContextIntegrationTests;
+import com.github.lucene.store.AbstractSpringContextIntegrationTests;
 
-public class DatabaseDirectoryITest extends AbstractContextIntegrationTests {
+public class DatabaseDirectoryITest extends AbstractSpringContextIntegrationTests {
 
     private Directory directory;
 
@@ -116,20 +116,14 @@ public class DatabaseDirectoryITest extends AbstractContextIntegrationTests {
     }
 
     @Test
-    public void createOutput_whenIOContextIsFlush_shouldCreateFile() throws IOException {
-        addContentIndexOutput(directory, "test1", "TEST STRING", Context.FLUSH);
-        Assert.assertEquals(1, directory.listAll().length);
-        Assert.assertEquals("test1", directory.listAll()[0]);
-    }
-
-    @Test
-    public void createOutput_whenIOContextIsNotFlush_shouldNotCreateFile() throws IOException {
+    public void createOutput_shouldCreateFile() throws IOException {
+        int i = 0;
         for (final Context context : Context.values()) {
-            if (!Context.FLUSH.equals(context)) {
-                addContentIndexOutput(directory, "test1", "TEST STRING", context);
-            }
+            addContentIndexOutput(directory, "test" + i, "TEST STRING", context);
+            Assert.assertTrue(directory.listAll().length > 0);
+            Assert.assertEquals("test" + i, directory.listAll()[i]);
+            i++;
         }
-        Assert.assertEquals(0, directory.listAll().length);
     }
 
     @Test(expected = DatabaseDirectoryException.class)

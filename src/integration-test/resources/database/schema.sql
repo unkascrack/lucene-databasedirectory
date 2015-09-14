@@ -1,0 +1,6 @@
+CREATE TABLE INDEX_TABLE (
+	name VARCHAR(50) NOT NULL, 
+	content LONGVARBINARY, 
+	size INTEGER, 
+	PRIMARY KEY (name) 
+);

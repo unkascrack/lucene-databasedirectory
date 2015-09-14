@@ -4,7 +4,6 @@
 	<groupId>com.github</groupId>
 	<artifactId>lucene-databasedirectory</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
-
 	<url>https://github.com/unkascrack/lucene-databasedirectory</url>
 	<inceptionYear>2015</inceptionYear>
 	<licenses>
@@ -13,7 +12,6 @@
 			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
 		</license>
 	</licenses>
-
 	<developers>
 		<developer>
 			<id>carlos.alonso.gonzalez_at_gmail.com</id>
@@ -26,25 +24,19 @@
 			</roles>
 		</developer>
 	</developers>
-
 	<issueManagement>
 		<system>google</system>
 		<url>https://github.com/unkascrack/lucene-databasedirectory/issues</url>
 	</issueManagement>
-
 	<prerequisites>
 		<maven>3.0.4</maven>
 	</prerequisites>
-
 	<properties>
 		<java.version>1.7</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-
 		<skipTests>false</skipTests>
-
 		<lucene.version>5.3.0</lucene.version>
-
 		<slf4j.version>1.7.7</slf4j.version>
 		<junit.version>4.12</junit.version>
 		<mockito.version>1.10.8</mockito.version>
@@ -52,8 +44,9 @@
 		<hsqldb.version>2.3.3</hsqldb.version>
 		<hikari.version>2.4.1</hikari.version>
 		<commons-dbcp.version>2.1.1</commons-dbcp.version>
+		<spring.version>4.1.7.RELEASE</spring.version>
+		<aspectj.version>1.8.6</aspectj.version>
 	</properties>
-
 	<dependencies>
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
@@ -65,7 +58,6 @@
 			<artifactId>slf4j-api</artifactId>
 			<version>${slf4j.version}</version>
 		</dependency>
-
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -90,7 +82,6 @@
 			<version>${log4j.version}</version>
 			<scope>test</scope>
 		</dependency>
-
 		<dependency>
 			<groupId>org.hsqldb</groupId>
 			<artifactId>hsqldb</artifactId>
@@ -127,8 +118,49 @@
 			<version>${commons-dbcp.version}</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${spring.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<version>${spring.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${spring.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+			<version>${spring.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>${spring.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+			<version>${aspectj.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<version>${aspectj.version}</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
-
 	<build>
 		<plugins>
 			<plugin>
@@ -242,7 +274,6 @@
 					</execution>
 				</executions>
 			</plugin>
-
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>

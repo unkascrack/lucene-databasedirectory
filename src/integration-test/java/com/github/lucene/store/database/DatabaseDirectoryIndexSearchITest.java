@@ -11,20 +11,21 @@ import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
-import org.apache.lucene.search.ScoreDoc;
+import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.Directory;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.github.lucene.store.AbstractContextIntegrationTests;
+import com.github.lucene.store.AbstractSpringContextIntegrationTests;
+import com.github.lucene.store.TestUtils;
 
-public class DatabaseDirectoryIndexSearchITest extends AbstractContextIntegrationTests {
+public class DatabaseDirectoryIndexSearchITest extends AbstractSpringContextIntegrationTests {
 
     private Directory directory;
 
-    private final Collection<String> docs = loadDocuments(3000, 5);
+    private final Collection<String> docs = TestUtils.loadDocuments(3000, 5);
     private final OpenMode openMode = OpenMode.CREATE;
     private final boolean useCompoundFile = false;
 
@@ -32,7 +33,7 @@ public class DatabaseDirectoryIndexSearchITest extends AbstractContextIntegratio
     public void initDirectory() throws DatabaseDirectoryException, IOException {
         directory = new DatabaseDirectory(dataSource, dialect, indexTableName);
         // create empty index
-        final IndexWriterConfig config = getIndexWriterConfig(analyzer, openMode, useCompoundFile);
+        final IndexWriterConfig config = TestUtils.getIndexWriterConfig(analyzer, openMode, useCompoundFile);
         final IndexWriter writer = new IndexWriter(directory, config);
         writer.close();
     }
@@ -50,8 +51,21 @@ public class DatabaseDirectoryIndexSearchITest extends AbstractContextIntegratio
 
         final QueryParser parser = new QueryParser("fieldname", analyzer);
         final Query query = parser.parse("text");
-        final ScoreDoc[] hits = isearcher.search(query, null, 1000).scoreDocs;
-        Assert.assertEquals(0, hits.length);
+        final TopDocs hits = isearcher.search(query, 1000);
+        Assert.assertEquals(0, hits.totalHits);
+        reader.close();
+    }
+
+    @Test
+    public void testSearch_whenIndexIsNotEmpty() throws IOException, ParseException {
+        TestUtils.addDocuments(directory, analyzer, openMode, useCompoundFile, docs);
+
+        final DirectoryReader reader = DirectoryReader.open(directory);
+        final IndexSearcher isearcher = new IndexSearcher(reader);
+        final QueryParser parser = new QueryParser("index_store_analyzed", analyzer);
+        final Query query = parser.parse("bibamus");
+        final TopDocs hits = isearcher.search(query, 1000);
+        Assert.assertTrue(hits.totalHits > 0);
         reader.close();
     }
 }

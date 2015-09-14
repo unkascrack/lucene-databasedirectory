@@ -4,7 +4,7 @@ import org.apache.lucene.store.LockFactory;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.github.lucene.store.database.DatabasePhantomReadLockFactory;
+import com.github.lucene.store.database.lock.DatabasePhantomReadLockFactory;
 
 public class HSQLDialectTest {
 

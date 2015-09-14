@@ -1,4 +1,4 @@
-package com.github.lucene.store.database;
+package com.github.lucene.store.database.lock;
 
 import java.io.IOException;
 
@@ -9,6 +9,10 @@ import org.apache.lucene.store.LockFactory;
 import org.apache.lucene.store.LockObtainFailedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.github.lucene.store.database.DatabaseDirectory;
+import com.github.lucene.store.database.DatabaseDirectoryException;
+import com.github.lucene.store.database.handler.DatabaseDirectoryHandler;
 
 public class DatabasePhantomReadLockFactory extends LockFactory {
 
@@ -38,7 +42,7 @@ public class DatabasePhantomReadLockFactory extends LockFactory {
         return this.getClass().getSimpleName();
     }
 
-    static final class DatabasePhantomReadLock extends Lock {
+    public static final class DatabasePhantomReadLock extends Lock {
 
         private final DatabaseDirectory directory;
         private final String name;

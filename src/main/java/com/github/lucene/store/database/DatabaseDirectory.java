@@ -1,6 +1,7 @@
 package com.github.lucene.store.database;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collection;
 
 import javax.sql.DataSource;
@@ -15,6 +16,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.lucene.store.database.dialect.Dialect;
+import com.github.lucene.store.database.handler.DatabaseDirectoryHandler;
+import com.github.lucene.store.database.index.DatabaseIndexInput;
+import com.github.lucene.store.database.index.DatabaseIndexOutput;
 
 public class DatabaseDirectory extends Directory {
 
@@ -64,8 +68,9 @@ public class DatabaseDirectory extends Directory {
 
     @Override
     public String[] listAll() throws IOException {
-        LOGGER.debug("{}.listAll()", this);
-        return handler.listAllFiles(this);
+        final String[] files = handler.listAllFiles(this);
+        LOGGER.debug("{}.listAll() = {}", this, Arrays.toString(files));
+        return files;
     }
 
     @Override
@@ -76,8 +81,9 @@ public class DatabaseDirectory extends Directory {
 
     @Override
     public long fileLength(final String name) throws IOException {
-        LOGGER.debug("{}.fileLength(name)", this, name);
-        return handler.fileLength(this, name);
+        final long length = handler.fileLength(this, name);
+        LOGGER.debug("{}.fileLength({}) = {}", this, name, length);
+        return length;
     }
 
     @Override

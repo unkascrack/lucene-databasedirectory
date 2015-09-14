@@ -1,4 +1,4 @@
-package com.github.lucene.store.database;
+package com.github.lucene.store.database.handler;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.github.lucene.store.database.DatabaseDirectoryException;
 import com.github.lucene.store.database.datasource.DataSourceUtils;
 
 /**

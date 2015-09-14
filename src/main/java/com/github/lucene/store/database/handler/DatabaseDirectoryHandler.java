@@ -1,4 +1,4 @@
-package com.github.lucene.store.database;
+package com.github.lucene.store.database.handler;
 
 import java.io.ByteArrayInputStream;
 import java.sql.Connection;
@@ -8,11 +8,13 @@ import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import com.github.lucene.store.database.DatabaseDirectory;
+import com.github.lucene.store.database.DatabaseDirectoryException;
 import com.github.lucene.store.database.datasource.DataSourceUtils;
 
-class DatabaseDirectoryHandler {
+public class DatabaseDirectoryHandler {
 
-    static final DatabaseDirectoryHandler INSTANCE = new DatabaseDirectoryHandler();
+    public static final DatabaseDirectoryHandler INSTANCE = new DatabaseDirectoryHandler();
 
     private DatabaseDirectoryHandler() {
     }
@@ -22,7 +24,7 @@ class DatabaseDirectoryHandler {
      * @return
      * @throws DatabaseDirectoryException
      */
-    boolean existsIndexTable(final DatabaseDirectory directory) throws DatabaseDirectoryException {
+    public boolean existsIndexTable(final DatabaseDirectory directory) throws DatabaseDirectoryException {
         final Connection connection = DataSourceUtils.getConnection(directory.getDataSource());
         final String sqlTableExists = directory.getDialect().sqlTableExists(directory.getIndexTableName());
         boolean exists = false;
@@ -49,7 +51,7 @@ class DatabaseDirectoryHandler {
      * @param directory
      * @throws DatabaseDirectoryException
      */
-    void createIndexTable(final DatabaseDirectory directory) throws DatabaseDirectoryException {
+    public void createIndexTable(final DatabaseDirectory directory) throws DatabaseDirectoryException {
         final Connection connection = DataSourceUtils.getConnection(directory.getDataSource());
         final String sqlCreate = directory.getDialect().sqlTableCreate(directory.getIndexTableName());
         JdbcTemplate.executeUpdate(connection, sqlCreate, new JdbcTemplate.PrepateStatementAwareCallback() {
@@ -90,7 +92,7 @@ class DatabaseDirectoryHandler {
      * @param directory
      * @param names
      */
-    void syncFiles(final DatabaseDirectory directory, final Collection<String> names) {
+    public void syncFiles(final DatabaseDirectory directory, final Collection<String> names) {
         // TODO Does nothing, will use transaction to commit the data
     }
 

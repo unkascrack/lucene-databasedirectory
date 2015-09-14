@@ -1,4 +1,4 @@
-package com.github.lucene.store.database;
+package com.github.lucene.store.database.index;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -10,7 +10,10 @@ import org.apache.lucene.store.IndexOutput;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-class DatabaseIndexOutput extends IndexOutput {
+import com.github.lucene.store.database.DatabaseDirectory;
+import com.github.lucene.store.database.handler.DatabaseDirectoryHandler;
+
+public class DatabaseIndexOutput extends IndexOutput {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DatabaseIndexOutput.class);
     private static final DatabaseDirectoryHandler handler = DatabaseDirectoryHandler.INSTANCE;
@@ -23,7 +26,7 @@ class DatabaseIndexOutput extends IndexOutput {
     private final Checksum digest = new CRC32();
     private long pos = 0;
 
-    DatabaseIndexOutput(final DatabaseDirectory directory, final String name, final IOContext context) {
+    public DatabaseIndexOutput(final DatabaseDirectory directory, final String name, final IOContext context) {
         super(name);
         this.directory = directory;
         this.name = name;

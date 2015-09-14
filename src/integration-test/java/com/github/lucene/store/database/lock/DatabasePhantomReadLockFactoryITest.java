@@ -1,4 +1,4 @@
-package com.github.lucene.store.database;
+package com.github.lucene.store.database.lock;
 
 import java.io.IOException;
 
@@ -11,6 +11,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.github.lucene.store.AbstractSpringContextIntegrationTests;
+import com.github.lucene.store.database.lock.DatabasePhantomReadLockFactory;
 
 public class DatabasePhantomReadLockFactoryITest extends AbstractSpringContextIntegrationTests {
 

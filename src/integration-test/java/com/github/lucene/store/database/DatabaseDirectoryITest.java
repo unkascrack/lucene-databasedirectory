@@ -34,6 +34,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.github.lucene.store.AbstractSpringContextIntegrationTests;
+import com.github.lucene.store.database.lock.DatabasePhantomReadLockFactory;
 
 public class DatabaseDirectoryITest extends AbstractSpringContextIntegrationTests {
 

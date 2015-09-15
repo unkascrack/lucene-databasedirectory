@@ -39,6 +39,7 @@
 		<lucene.version>5.3.0</lucene.version>
 		<slf4j.version>1.7.7</slf4j.version>
 		<junit.version>4.12</junit.version>
+		<testng.version>6.9.6</testng.version>
 		<mockito.version>1.10.8</mockito.version>
 		<log4j.version>2.3</log4j.version>
 		<hsqldb.version>2.3.3</hsqldb.version>
@@ -62,6 +63,12 @@
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.testng</groupId>
+			<artifactId>testng</artifactId>
+			<version>${testng.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -236,7 +243,7 @@
 					<skipTests>${skipTests}</skipTests>
 					<excludes>
 						<exclude>**/*ITest.java</exclude>
-						<exclude>**/*IntegrationTest.java</exclude>
+						<exclude>**/*ITestNG.java</exclude>
 					</excludes>
 				</configuration>
 			</plugin>
@@ -255,7 +262,7 @@
 							<skipTests>${skipTests}</skipTests>
 							<includes>
 								<include>**/*ITest.java</include>
-								<include>**/*IntegrationTest.java</include>
+								<include>**/*ITestNG.java</include>
 							</includes>
 						</configuration>
 					</execution>

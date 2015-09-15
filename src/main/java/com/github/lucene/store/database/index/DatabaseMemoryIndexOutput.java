@@ -13,20 +13,28 @@ import org.slf4j.LoggerFactory;
 import com.github.lucene.store.database.DatabaseDirectory;
 import com.github.lucene.store.database.handler.DatabaseDirectoryHandler;
 
-public class DatabaseIndexOutput extends IndexOutput {
+/**
+ * An <code>IndexOutput</code> implemenation that stores all the data written to it in memory, and flushes it to the
+ * database when the output is closed.
+ * <p/>
+ * Useful for small file entries like the segment file.
+ *
+ */
+public class DatabaseMemoryIndexOutput extends IndexOutput {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(DatabaseIndexOutput.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DatabaseMemoryIndexOutput.class);
     private static final DatabaseDirectoryHandler handler = DatabaseDirectoryHandler.INSTANCE;
 
     private final String name;
     private final DatabaseDirectory directory;
+    @SuppressWarnings("unused")
     private final IOContext context;
 
     private final ByteArrayOutputStream baos = new ByteArrayOutputStream();
     private final Checksum digest = new CRC32();
     private long pos = 0;
 
-    public DatabaseIndexOutput(final DatabaseDirectory directory, final String name, final IOContext context) {
+    public DatabaseMemoryIndexOutput(final DatabaseDirectory directory, final String name, final IOContext context) {
         super(name);
         this.directory = directory;
         this.name = name;

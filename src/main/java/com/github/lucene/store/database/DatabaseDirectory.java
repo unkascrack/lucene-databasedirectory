@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
 import com.github.lucene.store.database.dialect.Dialect;
 import com.github.lucene.store.database.handler.DatabaseDirectoryHandler;
 import com.github.lucene.store.database.index.DatabaseMemoryIndexInput;
-import com.github.lucene.store.database.index.DatabaseIndexOutput;
+import com.github.lucene.store.database.index.DatabaseMemoryIndexOutput;
 
 public class DatabaseDirectory extends Directory {
 
@@ -89,7 +89,7 @@ public class DatabaseDirectory extends Directory {
     @Override
     public IndexOutput createOutput(final String name, final IOContext context) throws IOException {
         LOGGER.debug("{}.createOutput({}, {})", this, name, context);
-        return new DatabaseIndexOutput(this, name, context);
+        return new DatabaseMemoryIndexOutput(this, name, context);
     }
 
     @Override

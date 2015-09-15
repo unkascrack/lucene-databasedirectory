@@ -12,15 +12,22 @@ import com.github.lucene.store.database.DatabaseDirectory;
 import com.github.lucene.store.database.DatabaseDirectoryException;
 import com.github.lucene.store.database.handler.DatabaseDirectoryHandler;
 
-public class DatabaseIndexInput extends BufferedIndexInput {
+/**
+ * An <code>IndexInput</code> implementation that will read all the relevant
+ * data from the database when created, and will cache it untill it is closed.
+ * <p/>
+ * Used for small file entries in the database like the segments file.
+ *
+ */
+public class DatabaseMemoryIndexInput extends BufferedIndexInput {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(DatabaseIndexInput.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DatabaseMemoryIndexInput.class);
     private static final DatabaseDirectoryHandler handler = DatabaseDirectoryHandler.INSTANCE;
 
     private final ByteBuffer buffer;
     private int pos;
 
-    public DatabaseIndexInput(final DatabaseDirectory directory, final String name, final IOContext context)
+    public DatabaseMemoryIndexInput(final DatabaseDirectory directory, final String name, final IOContext context)
             throws DatabaseDirectoryException {
         super(name, context);
         final byte[] content = handler.fileContent(directory, name);

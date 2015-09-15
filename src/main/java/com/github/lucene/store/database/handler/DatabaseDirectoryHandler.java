@@ -195,11 +195,11 @@ public class DatabaseDirectoryHandler {
      * @param directory
      * @param name
      * @param content
-     * @param contentLength
+     * @param length
      * @throws DatabaseDirectoryException
      */
-    public void saveFile(final DatabaseDirectory directory, final String name, final byte[] content,
-            final int contentLength) throws DatabaseDirectoryException {
+    public void saveFile(final DatabaseDirectory directory, final String name, final byte[] content, final long length)
+            throws DatabaseDirectoryException {
         final String sqlInsert = directory.getDialect().sqlInsert(directory.getIndexTableName());
         final Connection connection = DataSourceUtils.getConnection(directory.getDataSource());
         JdbcTemplate.executeUpdate(connection, sqlInsert, new JdbcTemplate.PrepateStatementAwareCallback() {
@@ -211,9 +211,36 @@ public class DatabaseDirectoryHandler {
                 if (content == null || content.length == 0) {
                     ps.setNull(2, Types.BLOB);
                 } else {
-                    ps.setBinaryStream(2, new ByteArrayInputStream(content), contentLength);
+                    ps.setBinaryStream(2, new ByteArrayInputStream(content), length);
                 }
-                ps.setInt(3, contentLength);
+                ps.setLong(3, length);
+            }
+        });
+    }
+
+    /**
+     * @param directory
+     * @param name
+     * @param stream
+     * @param length
+     * @throws DatabaseDirectoryException
+     */
+    public void saveStream(final DatabaseDirectory directory, final String name, final InputStream stream,
+            final long length) throws DatabaseDirectoryException {
+        final String sqlInsert = directory.getDialect().sqlInsert(directory.getIndexTableName());
+        final Connection connection = DataSourceUtils.getConnection(directory.getDataSource());
+        JdbcTemplate.executeUpdate(connection, sqlInsert, new JdbcTemplate.PrepateStatementAwareCallback() {
+
+            @Override
+            public void fillPrepareStatement(final PreparedStatement ps) throws Exception {
+                ps.setFetchSize(1);
+                ps.setString(1, name);
+                if (stream == null || length == 0) {
+                    ps.setNull(2, Types.BLOB);
+                } else {
+                    ps.setBinaryStream(2, stream, length);
+                }
+                ps.setLong(3, length);
             }
         });
     }

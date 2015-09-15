@@ -23,12 +23,14 @@ import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexNotFoundException;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.store.Directory;
+import org.apache.lucene.store.FlushInfo;
 import org.apache.lucene.store.IOContext;
 import org.apache.lucene.store.IOContext.Context;
 import org.apache.lucene.store.IndexInput;
 import org.apache.lucene.store.IndexOutput;
 import org.apache.lucene.store.Lock;
 import org.apache.lucene.store.LockObtainFailedException;
+import org.apache.lucene.store.MergeInfo;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
@@ -180,7 +182,19 @@ public class DatabaseDirectoryITest extends AbstractSpringContextIntegrationTest
 
     private void addContentIndexOutput(final Directory directory, final String fileName, final String content,
             final Context context) throws IOException {
-        final IndexOutput indexOutput = directory.createOutput(fileName, new IOContext(context));
+        IOContext ioContext = null;
+        switch (context) {
+        case FLUSH:
+            ioContext = new IOContext(new FlushInfo(1, 1));
+            break;
+        case MERGE:
+            ioContext = new IOContext(new MergeInfo(1, 1, false, 1));
+            break;
+        default:
+            ioContext = new IOContext(context);
+            break;
+        }
+        final IndexOutput indexOutput = directory.createOutput(fileName, ioContext);
         indexOutput.writeString(content);
         indexOutput.close();
     }

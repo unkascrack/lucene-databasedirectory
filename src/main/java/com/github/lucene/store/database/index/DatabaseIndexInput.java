@@ -32,6 +32,7 @@ public class DatabaseIndexInput extends BufferedIndexInput {
     protected void readInternal(final byte[] b, final int offset, final int length) throws IOException {
         LOGGER.trace("{}.readInternal({}, {}, {})", this, b, offset, length);
         System.arraycopy(buffer.array(), pos, b, offset, length);
+        pos += length;
     }
 
     @Override
@@ -43,7 +44,6 @@ public class DatabaseIndexInput extends BufferedIndexInput {
     @Override
     public void close() throws IOException {
         LOGGER.trace("{}.close()", this);
-        // TODO Auto-generated method stub
     }
 
     @Override

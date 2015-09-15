@@ -1,6 +1,7 @@
 package com.github.lucene.store.database.handler;
 
 import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -161,6 +162,31 @@ public class DatabaseDirectoryHandler {
                     @Override
                     public Object execute(final ResultSet rs) throws Exception {
                         return rs.next() ? rs.getBytes(1) : null;
+                    }
+                });
+    }
+
+    /**
+     * @param directory
+     * @param name
+     * @return
+     * @throws DatabaseDirectoryException
+     */
+    public InputStream fileStream(final DatabaseDirectory directory, final String name)
+            throws DatabaseDirectoryException {
+        final Connection connection = DataSourceUtils.getConnection(directory.getDataSource());
+        final String sqlSelectContent = directory.getDialect().sqlSelectContent(directory.getIndexTableName());
+        return (InputStream) JdbcTemplate.executeSelect(connection, sqlSelectContent,
+                new JdbcTemplate.ExecuteSelectCallback() {
+
+                    @Override
+                    public void fillPrepareStatement(final PreparedStatement ps) throws Exception {
+                        ps.setString(1, name);
+                    }
+
+                    @Override
+                    public Object execute(final ResultSet rs) throws Exception {
+                        return rs.next() ? rs.getBinaryStream(1) : null;
                     }
                 });
     }

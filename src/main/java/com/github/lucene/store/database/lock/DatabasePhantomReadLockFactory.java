@@ -30,6 +30,9 @@ public class DatabasePhantomReadLockFactory extends LockFactory {
 
         final DatabaseDirectory directory = (DatabaseDirectory) dir;
         try {
+            if (handler.existsFile(directory, lockName)) {
+                throw new LockObtainFailedException("Lock instance already obtained: " + directory);
+            }
             handler.saveFile(directory, lockName, null, 0);
             return new DatabasePhantomReadLock(directory, lockName);
         } catch (final DatabaseDirectoryException e) {

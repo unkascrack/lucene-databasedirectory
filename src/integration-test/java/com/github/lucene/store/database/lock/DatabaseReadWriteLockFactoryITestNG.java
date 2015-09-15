@@ -36,9 +36,9 @@ import com.github.lucene.store.database.dialect.HSQLDialect;
 @TestExecutionListeners({ TransactionalTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class })
 @TransactionConfiguration(defaultRollback = true)
-public class DatabasePhantomReadLockFactoryITestNG extends AbstractTestNGSpringContextTests {
+public class DatabaseReadWriteLockFactoryITestNG extends AbstractTestNGSpringContextTests {
 
-    private final LockFactory lockFactory = DatabasePhantomReadLockFactory.INSTANCE;
+    private final LockFactory lockFactory = DatabaseReadWriteLockFactory.INSTANCE;
 
     private static final String indexTableName = "INDEX_TABLE";
     @Resource

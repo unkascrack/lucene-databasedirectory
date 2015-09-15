@@ -2,7 +2,7 @@ package com.github.lucene.store.database.dialect;
 
 import org.apache.lucene.store.LockFactory;
 
-import com.github.lucene.store.database.lock.DatabasePhantomReadLockFactory;
+import com.github.lucene.store.database.lock.DatabaseReadWriteLockFactory;
 
 public class HSQLDialect extends Dialect {
 
@@ -19,6 +19,6 @@ public class HSQLDialect extends Dialect {
 
     @Override
     public LockFactory getLockFactory() {
-        return DatabasePhantomReadLockFactory.INSTANCE;
+        return DatabaseReadWriteLockFactory.INSTANCE;
     }
 }

@@ -4,7 +4,7 @@ import org.apache.lucene.store.LockFactory;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.github.lucene.store.database.lock.DatabasePhantomReadLockFactory;
+import com.github.lucene.store.database.lock.DatabaseReadWriteLockFactory;
 
 public class HSQLDialectTest {
 
@@ -18,10 +18,10 @@ public class HSQLDialectTest {
     }
 
     @Test
-    public void getLockFactory_shouldReturnLockPhantomReadLockFactory() {
+    public void getLockFactory_shouldReturnLockReadWriteLockFactory() {
         final LockFactory lockFactory = dialect.getLockFactory();
         Assert.assertNotNull(lockFactory);
-        Assert.assertEquals(DatabasePhantomReadLockFactory.class, lockFactory.getClass());
+        Assert.assertEquals(DatabaseReadWriteLockFactory.class, lockFactory.getClass());
     }
 
     @Test

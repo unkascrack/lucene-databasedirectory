@@ -14,14 +14,14 @@ import com.github.lucene.store.database.DatabaseDirectory;
 import com.github.lucene.store.database.DatabaseDirectoryException;
 import com.github.lucene.store.database.handler.DatabaseDirectoryHandler;
 
-public class DatabasePhantomReadLockFactory extends LockFactory {
+public class DatabaseReadWriteLockFactory extends LockFactory {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(DatabasePhantomReadLockFactory.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DatabaseReadWriteLockFactory.class);
     private static final DatabaseDirectoryHandler handler = DatabaseDirectoryHandler.INSTANCE;
 
-    public static final LockFactory INSTANCE = new DatabasePhantomReadLockFactory();
+    public static final LockFactory INSTANCE = new DatabaseReadWriteLockFactory();
 
-    private DatabasePhantomReadLockFactory() {
+    private DatabaseReadWriteLockFactory() {
     }
 
     @Override
@@ -34,7 +34,7 @@ public class DatabasePhantomReadLockFactory extends LockFactory {
                 throw new LockObtainFailedException("Lock instance already obtained: " + directory);
             }
             handler.saveFile(directory, lockName, null, 0);
-            return new DatabasePhantomReadLock(directory, lockName);
+            return new DatabaseReadWriteLock(directory, lockName);
         } catch (final DatabaseDirectoryException e) {
             throw new LockObtainFailedException("Lock instance already obtained: " + directory);
         }
@@ -45,13 +45,13 @@ public class DatabasePhantomReadLockFactory extends LockFactory {
         return this.getClass().getSimpleName();
     }
 
-    public static final class DatabasePhantomReadLock extends Lock {
+    public static final class DatabaseReadWriteLock extends Lock {
 
         private final DatabaseDirectory directory;
         private final String name;
         private volatile boolean closed;
 
-        public DatabasePhantomReadLock(final DatabaseDirectory directory, final String name) {
+        public DatabaseReadWriteLock(final DatabaseDirectory directory, final String name) {
             this.directory = directory;
             this.name = name;
         }

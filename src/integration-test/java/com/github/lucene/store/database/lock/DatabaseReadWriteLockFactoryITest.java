@@ -11,11 +11,11 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.github.lucene.store.AbstractSpringContextIntegrationTests;
-import com.github.lucene.store.database.lock.DatabasePhantomReadLockFactory;
+import com.github.lucene.store.database.lock.DatabaseReadWriteLockFactory;
 
-public class DatabasePhantomReadLockFactoryITest extends AbstractSpringContextIntegrationTests {
+public class DatabaseReadWriteLockFactoryITest extends AbstractSpringContextIntegrationTests {
 
-    private final LockFactory lockFactory = DatabasePhantomReadLockFactory.INSTANCE;
+    private final LockFactory lockFactory = DatabaseReadWriteLockFactory.INSTANCE;
 
     @Test
     public void obtainLock_shouldReturnLock() throws IOException {

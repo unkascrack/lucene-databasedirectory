@@ -36,7 +36,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.github.lucene.store.AbstractSpringContextIntegrationTests;
-import com.github.lucene.store.database.lock.DatabasePhantomReadLockFactory;
+import com.github.lucene.store.database.lock.DatabaseReadWriteLockFactory;
 
 public class DatabaseDirectoryITest extends AbstractSpringContextIntegrationTests {
 
@@ -145,7 +145,7 @@ public class DatabaseDirectoryITest extends AbstractSpringContextIntegrationTest
     public void obtainLock_whenLockFileNotFound_shouldReturnLock() throws IOException {
         final Lock lock = directory.obtainLock(IndexWriter.WRITE_LOCK_NAME);
         Assert.assertNotNull(lock);
-        Assert.assertTrue(lock instanceof DatabasePhantomReadLockFactory.DatabasePhantomReadLock);
+        Assert.assertTrue(lock instanceof DatabaseReadWriteLockFactory.DatabaseReadWriteLock);
         lock.close();
     }
 

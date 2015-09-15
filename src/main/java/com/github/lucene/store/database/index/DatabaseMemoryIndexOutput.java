@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.lucene.store.database.DatabaseDirectory;
+import com.github.lucene.store.database.DatabaseDirectoryException;
 import com.github.lucene.store.database.handler.DatabaseDirectoryHandler;
 
 /**
@@ -34,18 +35,12 @@ public class DatabaseMemoryIndexOutput extends IndexOutput {
     private final Checksum digest = new CRC32();
     private long pos = 0;
 
-    public DatabaseMemoryIndexOutput(final DatabaseDirectory directory, final String name, final IOContext context) {
+    public DatabaseMemoryIndexOutput(final DatabaseDirectory directory, final String name, final IOContext context)
+            throws DatabaseDirectoryException {
         super(name);
         this.directory = directory;
         this.name = name;
         this.context = context;
-    }
-
-    @Override
-    public void close() throws IOException {
-        LOGGER.trace("{}.close()", this);
-        final byte[] buffer = baos.toByteArray();
-        handler.saveFile(directory, name, buffer, buffer.length);
     }
 
     @Override
@@ -64,8 +59,8 @@ public class DatabaseMemoryIndexOutput extends IndexOutput {
     public void writeByte(final byte b) throws IOException {
         LOGGER.trace("{}.writeByte({})", this, b);
         baos.write(b);
-        ++pos;
         digest.update(b);
+        pos++;
     }
 
     @Override
@@ -77,7 +72,15 @@ public class DatabaseMemoryIndexOutput extends IndexOutput {
     }
 
     @Override
+    public void close() throws IOException {
+        LOGGER.trace("{}.close()", this);
+        final byte[] buffer = baos.toByteArray();
+        handler.saveFile(directory, name, buffer, buffer.length);
+    }
+
+    @Override
     public String toString() {
-        return this.getClass().getSimpleName();
+        return new StringBuilder().append(this.getClass().getSimpleName()).append(":").append(directory).append("/")
+                .append(name).toString();
     }
 }

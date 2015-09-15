@@ -25,7 +25,7 @@ public class DatabaseFetchIndexInput extends BufferedIndexInput {
     private final DatabaseDirectory directory;
     private final String name;
     private final long length;
-    private int pos;
+    private int pos = 0;
 
     public DatabaseFetchIndexInput(final DatabaseDirectory directory, final String name, final IOContext context)
             throws DatabaseDirectoryException {
@@ -33,7 +33,6 @@ public class DatabaseFetchIndexInput extends BufferedIndexInput {
         this.directory = directory;
         this.name = name;
         length = handler.fileLength(directory, name);
-        pos = 0;
     }
 
     @Override
@@ -66,6 +65,7 @@ public class DatabaseFetchIndexInput extends BufferedIndexInput {
 
     @Override
     public String toString() {
-        return this.getClass().getSimpleName() + ":" + directory + "/" + name;
+        return new StringBuilder().append(this.getClass().getSimpleName()).append(":").append(directory).append("/")
+                .append(name).toString();
     }
 }

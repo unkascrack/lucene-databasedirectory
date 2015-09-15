@@ -124,6 +124,7 @@ public class DatabaseDirectory extends Directory {
 
     @Override
     public String toString() {
-        return this.getClass().getSimpleName() + "@" + indexTableName;
+        return new StringBuilder().append(this.getClass().getSimpleName()).append("@").append(indexTableName)
+                .toString();
     }
 }

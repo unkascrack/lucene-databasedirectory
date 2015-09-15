@@ -13,8 +13,8 @@ import com.github.lucene.store.database.DatabaseDirectoryException;
 import com.github.lucene.store.database.handler.DatabaseDirectoryHandler;
 
 /**
- * An <code>IndexInput</code> implementation that will read all the relevant
- * data from the database when created, and will cache it untill it is closed.
+ * An <code>IndexInput</code> implementation that will read all the relevant data from the database when created, and
+ * will cache it untill it is closed.
  * <p/>
  * Used for small file entries in the database like the segments file.
  *
@@ -24,15 +24,18 @@ public class DatabaseMemoryIndexInput extends BufferedIndexInput {
     private static final Logger LOGGER = LoggerFactory.getLogger(DatabaseMemoryIndexInput.class);
     private static final DatabaseDirectoryHandler handler = DatabaseDirectoryHandler.INSTANCE;
 
+    private final DatabaseDirectory directory;
+    private final String name;
     private final ByteBuffer buffer;
-    private int pos;
+    private int pos = 0;
 
     public DatabaseMemoryIndexInput(final DatabaseDirectory directory, final String name, final IOContext context)
             throws DatabaseDirectoryException {
         super(name, context);
+        this.directory = directory;
+        this.name = name;
         final byte[] content = handler.fileContent(directory, name);
         buffer = content != null && content.length > 0 ? ByteBuffer.wrap(content) : ByteBuffer.allocate(0);
-        pos = 0;
     }
 
     @Override
@@ -61,6 +64,7 @@ public class DatabaseMemoryIndexInput extends BufferedIndexInput {
 
     @Override
     public String toString() {
-        return this.getClass().getSimpleName();
+        return new StringBuilder().append(this.getClass().getSimpleName()).append(":").append(directory).append("/")
+                .append(name).toString();
     }
 }

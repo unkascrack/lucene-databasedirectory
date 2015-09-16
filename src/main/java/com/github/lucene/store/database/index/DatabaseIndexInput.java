@@ -28,8 +28,8 @@ public class DatabaseIndexInput extends BufferedIndexInput {
         super(name, context);
         this.directory = directory;
         this.name = name;
-        stream = handler.fileStream(directory, name);
         length = handler.fileLength(directory, name);
+        stream = length > 0l ? handler.fileStream(directory, name) : null;
     }
 
     @Override

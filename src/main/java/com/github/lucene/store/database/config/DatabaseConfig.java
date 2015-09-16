@@ -1,4 +1,4 @@
-package com.github.lucene.store.database.dialect;
+package com.github.lucene.store.database.config;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -6,9 +6,9 @@ import java.util.Properties;
 
 import org.apache.lucene.store.LockFactory;
 
-public abstract class Dialect {
+public abstract class DatabaseConfig {
 
-    private static final String DEFAULT_CONFIG = "dialect.sql";
+    private static final String DEFAULT_CONFIG = "config.sql";
 
     protected static final String PROPERTY_SQL_TABLE_EXISTS = "sql.table.exists";
     protected static final String PROPERTY_SQL_TABLE_CREATE = "sql.table.create";
@@ -22,23 +22,22 @@ public abstract class Dialect {
 
     protected final Properties properties;
 
-    public Dialect(final String dialectConfig) {
+    public DatabaseConfig(final String config) {
         try {
             properties = new Properties();
             properties.load(getClass().getResourceAsStream(DEFAULT_CONFIG));
-            InputStream stream = getClass().getResourceAsStream(dialectConfig);
+            InputStream stream = getClass().getResourceAsStream(config);
             if (stream == null) {
-                stream = getClass().getClassLoader().getResourceAsStream(dialectConfig);
+                stream = getClass().getClassLoader().getResourceAsStream(config);
             }
             properties.load(stream);
         } catch (final IOException e) {
-            throw new IllegalArgumentException(
-                    "Could not load dialect config [" + dialectConfig + "]: " + e.getMessage());
+            throw new IllegalArgumentException("Could not load config [" + config + "]: " + e.getMessage());
         }
     }
 
     /**
-     * Does the dialect support a special query to check if a table exists.
+     * Does the database support a special query to check if a table exists.
      * Defaults to <code>false</code>.
      *
      * @return
@@ -51,7 +50,7 @@ public abstract class Dialect {
     public abstract LockFactory getLockFactory();
 
     /**
-     * If the dialect support a special query to check if a table exists, the
+     * If the database support a special query to check if a table exists, the
      * actual sql that is used to perform it. Defaults to throw an Unsupported
      * excetion (see {@link #supportsTableExists()}.
      *

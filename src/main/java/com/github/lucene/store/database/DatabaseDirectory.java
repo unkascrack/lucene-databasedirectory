@@ -15,7 +15,7 @@ import org.apache.lucene.store.LockFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.github.lucene.store.database.dialect.Dialect;
+import com.github.lucene.store.database.config.DatabaseConfig;
 import com.github.lucene.store.database.handler.DatabaseDirectoryHandler;
 import com.github.lucene.store.database.index.DatabaseMemoryIndexInput;
 import com.github.lucene.store.database.index.DatabaseMemoryIndexOutput;
@@ -31,24 +31,24 @@ public class DatabaseDirectory extends Directory {
 
     private final String indexTableName;
     private final DataSource dataSource;
-    private final Dialect dialect;
+    private final DatabaseConfig config;
     private final LockFactory lockFactory;
 
     /**
      * @param dataSource
-     * @param dialect
+     * @param config
      * @param indexTableName
      * @throws DatabaseDirectoryException
      */
-    public DatabaseDirectory(final DataSource dataSource, final Dialect dialect, final String indexTableName)
+    public DatabaseDirectory(final DataSource dataSource, final DatabaseConfig config, final String indexTableName)
             throws DatabaseDirectoryException {
         this.dataSource = dataSource;
-        this.dialect = dialect;
+        this.config = config;
         this.indexTableName = indexTableName;
-        lockFactory = dialect.getLockFactory();
+        lockFactory = config.getLockFactory();
 
         // create directory, if it doesn't exist
-        if (dialect.supportsTableExists() && !handler.existsIndexTable(this)) {
+        if (config.supportsTableExists() && !handler.existsIndexTable(this)) {
             LOGGER.info("{}: creating lucene index table", this);
             handler.createIndexTable(this);
         }
@@ -62,8 +62,8 @@ public class DatabaseDirectory extends Directory {
         return dataSource;
     }
 
-    public Dialect getDialect() {
-        return dialect;
+    public DatabaseConfig getConfig() {
+        return config;
     }
 
     @Override

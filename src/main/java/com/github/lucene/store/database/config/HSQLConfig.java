@@ -1,15 +1,15 @@
-package com.github.lucene.store.database.dialect;
+package com.github.lucene.store.database.config;
 
 import org.apache.lucene.store.LockFactory;
 
 import com.github.lucene.store.database.lock.DatabaseReadWriteLockFactory;
 
-public class HSQLDialect extends Dialect {
+public class HSQLConfig extends DatabaseConfig {
 
-    private static final String DIALECT_CONFIG = "hsqldialect.sql";
+    private static final String HSQL_CONFIG = "hsql.sql";
 
-    public HSQLDialect() {
-        super(DIALECT_CONFIG);
+    public HSQLConfig() {
+        super(HSQL_CONFIG);
     }
 
     @Override

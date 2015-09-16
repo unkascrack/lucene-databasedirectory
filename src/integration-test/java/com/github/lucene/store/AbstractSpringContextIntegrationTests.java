@@ -22,8 +22,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.github.lucene.store.database.DatabaseDirectory;
 import com.github.lucene.store.database.DatabaseDirectoryException;
-import com.github.lucene.store.database.dialect.Dialect;
-import com.github.lucene.store.database.dialect.HSQLDialect;
+import com.github.lucene.store.database.config.DatabaseConfig;
+import com.github.lucene.store.database.config.HSQLConfig;
 
 @ContextConfiguration(locations = { "classpath:spring-config-test.xml" })
 @TestExecutionListeners({ TransactionalTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
@@ -38,12 +38,12 @@ public abstract class AbstractSpringContextIntegrationTests extends AbstractJUni
     protected DataSource dataSource;
 
     protected Directory directory;
-    protected final Dialect dialect = new HSQLDialect();
+    protected final DatabaseConfig config = new HSQLConfig();
     protected final Analyzer analyzer = new SimpleAnalyzer();
 
     @Before
     public void initDirectory() throws DatabaseDirectoryException, IOException, ParseException {
-        directory = new DatabaseDirectory(dataSource, dialect, indexTableName);
+        directory = new DatabaseDirectory(dataSource, config, indexTableName);
     }
 
     @After

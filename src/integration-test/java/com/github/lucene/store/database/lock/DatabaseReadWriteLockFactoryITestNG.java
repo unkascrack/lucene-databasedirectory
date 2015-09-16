@@ -29,8 +29,8 @@ import org.testng.annotations.Test;
 
 import com.github.lucene.store.database.DatabaseDirectory;
 import com.github.lucene.store.database.DatabaseDirectoryException;
-import com.github.lucene.store.database.dialect.Dialect;
-import com.github.lucene.store.database.dialect.HSQLDialect;
+import com.github.lucene.store.database.config.DatabaseConfig;
+import com.github.lucene.store.database.config.HSQLConfig;
 
 @ContextConfiguration(locations = { "classpath:spring-config-test.xml" })
 @TestExecutionListeners({ TransactionalTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
@@ -44,11 +44,11 @@ public class DatabaseReadWriteLockFactoryITestNG extends AbstractTestNGSpringCon
     @Resource
     protected DataSource dataSource;
     protected Directory directory;
-    protected final Dialect dialect = new HSQLDialect();
+    protected final DatabaseConfig config = new HSQLConfig();
 
     @BeforeClass
     public void initDirectory() throws DatabaseDirectoryException, IOException, ParseException {
-        directory = new DatabaseDirectory(dataSource, dialect, indexTableName);
+        directory = new DatabaseDirectory(dataSource, config, indexTableName);
     }
 
     @AfterClass

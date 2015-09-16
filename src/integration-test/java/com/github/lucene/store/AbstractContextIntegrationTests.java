@@ -15,9 +15,9 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 
+import com.github.lucene.store.database.config.DatabaseConfig;
+import com.github.lucene.store.database.config.HSQLConfig;
 import com.github.lucene.store.database.datasource.TransactionAwareDataSourceProxy;
-import com.github.lucene.store.database.dialect.Dialect;
-import com.github.lucene.store.database.dialect.HSQLDialect;
 
 import net.sf.log4jdbc.sql.jdbcapi.DataSourceSpy;
 
@@ -28,7 +28,7 @@ public abstract class AbstractContextIntegrationTests {
     protected DataSource dataSource;
 
     protected final String indexTableName = "INDEX_TABLE";
-    protected final Dialect dialect = new HSQLDialect();
+    protected final DatabaseConfig config = new HSQLConfig();
     protected final Analyzer analyzer = new SimpleAnalyzer();
 
     @BeforeClass

@@ -22,8 +22,27 @@ public abstract class DatabaseConfig {
 
     protected final Properties properties;
 
+    /**
+     * The default value for the threshold (in bytes). Currently 16K.
+     */
+    public static final long DEFAULT_THRESHOLD = 16 * 1024;
+
+    private long threshold;
+
+    /**
+     * @param config
+     */
     public DatabaseConfig(final String config) {
+        this(config, DEFAULT_THRESHOLD);
+    }
+
+    /**
+     * @param config
+     * @param threshold
+     */
+    public DatabaseConfig(final String config, final long threshold) {
         try {
+            this.threshold = threshold;
             properties = new Properties();
             properties.load(getClass().getResourceAsStream(DEFAULT_CONFIG));
             InputStream stream = getClass().getResourceAsStream(config);
@@ -48,6 +67,20 @@ public abstract class DatabaseConfig {
      * @return
      */
     public abstract LockFactory getLockFactory();
+
+    /**
+     * @return
+     */
+    public final long getThreshold() {
+        return threshold;
+    }
+
+    /**
+     * @param threshold
+     */
+    public final void setThreshold(final long threshold) {
+        this.threshold = threshold;
+    }
 
     /**
      * If the database support a special query to check if a table exists, the

@@ -12,6 +12,10 @@ public class HSQLConfig extends DatabaseConfig {
         super(HSQL_CONFIG);
     }
 
+    public HSQLConfig(final long threshold) {
+        super(HSQL_CONFIG, threshold);
+    }
+
     @Override
     public boolean supportsTableExists() {
         return true;

@@ -38,7 +38,7 @@ public abstract class AbstractSpringContextIntegrationTests extends AbstractJUni
     protected DataSource dataSource;
 
     protected Directory directory;
-    protected final DatabaseConfig config = new HSQLConfig();
+    protected final DatabaseConfig config = new HSQLConfig(1024l);
     protected final Analyzer analyzer = new SimpleAnalyzer();
 
     @Before

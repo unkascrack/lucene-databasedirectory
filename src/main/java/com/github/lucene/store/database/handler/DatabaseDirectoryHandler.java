@@ -198,7 +198,7 @@ public class DatabaseDirectoryHandler {
      * @param length
      * @throws DatabaseDirectoryException
      */
-    public void saveFile(final DatabaseDirectory directory, final String name, final byte[] content, final long length)
+    public void saveFile(final DatabaseDirectory directory, final String name, final Object content, final long length)
             throws DatabaseDirectoryException {
         final String sqlInsert = directory.getConfig().sqlInsert(directory.getIndexTableName());
         final Connection connection = DataSourceUtils.getConnection(directory.getDataSource());
@@ -208,37 +208,12 @@ public class DatabaseDirectoryHandler {
             public void fillPrepareStatement(final PreparedStatement ps) throws Exception {
                 ps.setFetchSize(1);
                 ps.setString(1, name);
-                if (content == null || content.length == 0) {
+                if (length == 0) {
                     ps.setNull(2, Types.BLOB);
+                } else if (content instanceof InputStream) {
+                    ps.setBinaryStream(2, (InputStream) content, length);
                 } else {
-                    ps.setBinaryStream(2, new ByteArrayInputStream(content), length);
-                }
-                ps.setLong(3, length);
-            }
-        });
-    }
-
-    /**
-     * @param directory
-     * @param name
-     * @param stream
-     * @param length
-     * @throws DatabaseDirectoryException
-     */
-    public void saveStream(final DatabaseDirectory directory, final String name, final InputStream stream,
-            final long length) throws DatabaseDirectoryException {
-        final String sqlInsert = directory.getConfig().sqlInsert(directory.getIndexTableName());
-        final Connection connection = DataSourceUtils.getConnection(directory.getDataSource());
-        JdbcTemplate.executeUpdate(connection, sqlInsert, new JdbcTemplate.PrepateStatementAwareCallback() {
-
-            @Override
-            public void fillPrepareStatement(final PreparedStatement ps) throws Exception {
-                ps.setFetchSize(1);
-                ps.setString(1, name);
-                if (stream == null || length == 0) {
-                    ps.setNull(2, Types.BLOB);
-                } else {
-                    ps.setBinaryStream(2, stream, length);
+                    ps.setBinaryStream(2, new ByteArrayInputStream((byte[]) content), length);
                 }
                 ps.setLong(3, length);
             }

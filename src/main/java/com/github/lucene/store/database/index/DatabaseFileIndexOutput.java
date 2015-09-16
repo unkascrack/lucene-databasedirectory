@@ -19,10 +19,11 @@ import com.github.lucene.store.database.DatabaseDirectoryException;
 import com.github.lucene.store.database.handler.DatabaseDirectoryHandler;
 
 /**
- * An <code>IndexOutput</code> implemenation that writes all the data to a temporary file, and when closed, flushes the
- * file to the database.
+ * An <code>IndexOutput</code> implemenation that writes all the data to a
+ * temporary file, and when closed, flushes the file to the database.
  * <p/>
- * Usefull for large files that are known in advance to be larger then the acceptable threshold configured.
+ * Usefull for large files that are known in advance to be larger then the
+ * acceptable threshold configured.
  *
  */
 public class DatabaseFileIndexOutput extends IndexOutput {
@@ -88,7 +89,7 @@ public class DatabaseFileIndexOutput extends IndexOutput {
         LOGGER.trace("{}.close()", this);
         file.seek(0);
         final InputStream stream = new BufferedInputStream(new FileInputStream(file.getFD()));
-        handler.saveStream(directory, name, stream, file.length());
+        handler.saveFile(directory, name, stream, file.length());
         file.close();
         tempFile.delete();
     }

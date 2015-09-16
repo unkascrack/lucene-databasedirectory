@@ -93,10 +93,13 @@ public class DatabaseIndexOutput extends IndexOutput {
         handler.saveFile(directory, name, content, length);
         if (baos != null) {
             baos.close();
+            baos = null;
         }
         if (file != null) {
             file.close();
             tempFile.delete();
+            file = null;
+            tempFile = null;
         }
     }
 

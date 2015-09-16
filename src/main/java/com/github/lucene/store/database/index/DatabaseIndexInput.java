@@ -19,7 +19,7 @@ public class DatabaseIndexInput extends BufferedIndexInput {
 
     private final DatabaseDirectory directory;
     private final String name;
-    private final InputStream stream;
+    private InputStream stream;
     private final long length;
     private int pos = 0;
 
@@ -53,6 +53,7 @@ public class DatabaseIndexInput extends BufferedIndexInput {
     public void close() throws IOException {
         LOGGER.trace("{}.close()", this);
         stream.close();
+        stream = null;
     }
 
     @Override

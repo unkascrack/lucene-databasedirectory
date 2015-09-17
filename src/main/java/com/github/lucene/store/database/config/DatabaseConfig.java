@@ -6,6 +6,12 @@ import java.util.Properties;
 
 import org.apache.lucene.store.LockFactory;
 
+import com.github.lucene.store.database.lock.DatabaseReadWriteLockFactory;
+
+/**
+ * Database config
+ *
+ */
 public abstract class DatabaseConfig {
 
     private static final String DEFAULT_CONFIG = "config.sql";
@@ -61,12 +67,16 @@ public abstract class DatabaseConfig {
      *
      * @return
      */
-    public abstract boolean supportsTableExists();
+    public boolean supportsTableExists() {
+        return true;
+    }
 
     /**
      * @return
      */
-    public abstract LockFactory getLockFactory();
+    public LockFactory getLockFactory() {
+        return DatabaseReadWriteLockFactory.INSTANCE;
+    }
 
     /**
      * @return
@@ -155,7 +165,12 @@ public abstract class DatabaseConfig {
      * @param tableName
      * @return
      */
-    public final String sqlDeleteByName(final String tableName) {
+    public final String sqlDelete(final String tableName) {
         return String.format(properties.getProperty(PROPERTY_SQL_DELETE), tableName);
+    }
+
+    @Override
+    public String toString() {
+        return this.getClass().getSimpleName();
     }
 }

@@ -228,7 +228,7 @@ public class DatabaseDirectoryHandler {
      */
     public void deleteFile(final DatabaseDirectory directory, final String name) throws DatabaseDirectoryException {
         final Connection connection = DataSourceUtils.getConnection(directory.getDataSource());
-        final String sqlDelete = directory.getConfig().sqlDeleteByName(directory.getIndexTableName());
+        final String sqlDelete = directory.getConfig().sqlDelete(directory.getIndexTableName());
         JdbcTemplate.executeUpdate(connection, sqlDelete, new JdbcTemplate.PrepateStatementAwareCallback() {
 
             @Override

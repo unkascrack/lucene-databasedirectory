@@ -117,7 +117,7 @@ public class DatabaseDirectoryITest extends AbstractSpringContextIntegrationTest
         for (final Context context : Context.values()) {
             addContentIndexOutput(directory, "test" + i, "TEST STRING", context);
             Assert.assertTrue(directory.listAll().length > 0);
-            Assert.assertEquals("test" + i, directory.listAll()[i]);
+            Assert.assertTrue(Arrays.toString(directory.listAll()).contains("test" + i));
             i++;
         }
     }

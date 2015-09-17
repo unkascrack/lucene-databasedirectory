@@ -167,6 +167,12 @@
 			<version>${aspectj.version}</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.4</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
@@ -281,21 +287,21 @@
 					</execution>
 				</executions>
 			</plugin>
-			<!-- 
-			<plugin>
+			<!--
+				<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<version>2.7</version>
 				<executions>
-					<execution>
-						<id>attach-javadocs</id>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-					</execution>
+				<execution>
+				<id>attach-javadocs</id>
+				<goals>
+				<goal>jar</goal>
+				</goals>
+				</execution>
 				</executions>
-			</plugin>
-			 -->
+				</plugin>
+			-->
 		</plugins>
 		<resources>
 			<resource>

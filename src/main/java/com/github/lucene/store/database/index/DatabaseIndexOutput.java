@@ -17,8 +17,16 @@ import org.slf4j.LoggerFactory;
 
 import com.github.lucene.store.database.DatabaseDirectory;
 import com.github.lucene.store.database.DatabaseDirectoryException;
+import com.github.lucene.store.database.config.DatabaseConfig;
 import com.github.lucene.store.database.handler.DatabaseDirectoryHandler;
 
+/**
+ * An <code>IndexOutput</code> implementation that initially writes the data to
+ * a memory buffer. Once it exceeds the configured threshold (
+ * {@link DatabaseConfig#setThreshold(long)}, will start working with a
+ * temporary file, releasing the previous buffer.
+ *
+ */
 public class DatabaseIndexOutput extends IndexOutput {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DatabaseFileIndexOutput.class);
